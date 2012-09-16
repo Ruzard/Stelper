@@ -1,0 +1,43 @@
+# you describe your data using the YAML notation here
+# and then load them using Fixtures.load("data.yml")
+
+
+
+User(bob):
+  email: bob@gmail.com
+  password: secret
+  username: Bob
+  country: EE
+
+User(commentPoster):
+  email: bob@gmail.com
+  password: secret
+  username: Commenter
+  country: EE
+
+User(banned):
+  email: banned@gmail.com
+  password: secret
+  username: BannedBob
+  country: EE
+  status: "BANNED"
+
+UniversalPost(firstPost):
+   type: OFFER
+   author: bob
+   posts: [langPostFirst, langPostSecond]
+
+LangPost(langPostFirst):
+  title:  "HelloTitle"
+  body:   "HelloBody"
+  language: ET
+  parentPost: firstPost
+
+LangPost(langPostSecond):
+  title:  "HelloSecondTitle"
+  body:   "HelloSecondBody"
+  language: RU
+  parentPost: firstPost
+
+
+
