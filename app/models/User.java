@@ -36,6 +36,7 @@ public class User extends Model {
 	public String city;
 
 	@ElementCollection
+	@Enumerated
 	public List<Language> languages;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "author")
@@ -44,14 +45,19 @@ public class User extends Model {
 	@OneToOne(cascade = CascadeType.ALL)
 	public ActivityHistory history;
 
+	@Enumerated(EnumType.STRING)
 	public Role role;
 
+	@Enumerated(EnumType.STRING)
 	public UserStatus status;
 
+	@Enumerated(value = EnumType.STRING)
 	public EducationLevel educationLevel;
 
+	@OneToOne(cascade = CascadeType.ALL)
 	public Rating userRating;
 
+	@OneToOne(cascade = CascadeType.ALL)
 	public Rating postRating;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "author")
@@ -60,6 +66,7 @@ public class User extends Model {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "receiver")
 	public List<Feedback> feedbacks;
 
+	@OneToOne(cascade = CascadeType.ALL)
 	public ReportState reportState;
 
 	public User() {

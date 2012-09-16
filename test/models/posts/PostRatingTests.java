@@ -11,7 +11,7 @@ import static models.enums.RatingType.POSITIVE;
 import static models.enums.ResponseStatus.OK;
 import static models.enums.ResponseStatus.RATING_ALREADY_CHANGED;
 
-public class RatingTests extends UnitTest {
+public class PostRatingTests extends UnitTest {
 
 	private UniversalPost universalPost;
 
@@ -74,5 +74,6 @@ public class RatingTests extends UnitTest {
 
 		return positiveEquals && neutralEquals && negativeEquals;
 	}
+
 
 }

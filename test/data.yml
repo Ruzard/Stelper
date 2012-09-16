@@ -8,26 +8,28 @@ User(bob):
   password: secret
   username: Bob
   country: EE
+  status: ACTIVE
 
 User(commentPoster):
   email: bob@gmail.com
   password: secret
   username: Commenter
   country: EE
+  status: ACTIVE
 
 User(frozen):
   email: bob@gmail.com
   password: secret
   username: frozen
   country: EE
-  status: "FROZEN"
+  status: FROZEN
 
 User(banned):
   email: banned@gmail.com
   password: secret
   username: BannedBob
   country: EE
-  status: "BANNED"
+  status: BANNED
 
 UniversalPost(firstPost):
    type: OFFER

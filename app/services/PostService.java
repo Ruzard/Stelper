@@ -2,25 +2,26 @@ package services;
 
 import models.*;
 import models.enums.*;
-import play.Logger;
+import models.exceptions.*;
+import utils.AccessValidation;
 
 import static models.enums.ResponseStatus.*;
 
 public class PostService {
-	public static ResponseStatus createPost(UniversalPost post, User author) {
-		switch (author.status) {
-			case FROZEN:
-			case BANNED:
-				Logger.debug(author.username + " has tried to create a post being" + author.status);
-				return ACCESS_VIOLATION;
-			case ACTIVE:
-				post.author = author;
-				post.save();
-				return OK;
+	public static UniversalPost createPost(UniversalPost post, User author) throws AccessViolationException,
+			DataValidationException {
+
+		if (!AccessValidation.postCreationAllowed(author)) {
+			throw new AccessViolationException("You are not allowed to post with status " + author.status);
+//			return ACCESS_VIOLATION.specifyMessage();
 		}
-		Logger.error("Rollback for " + post);
-		post.delete();
-		return ROLLBACK_OCCURED;
+
+		if (post.posts.isEmpty()) {
+			throw new DataValidationException(post + " missing translated posts");
+//			return DATA_VALIDATION_EXCEPTION.specifyMessage(post + " missing translated posts");
+		}
+		post.author = author;
+		return post.save();
 	}
 
 	public static ResponseStatus changeRating(UniversalPost post, User initiator, RatingType changeType) {

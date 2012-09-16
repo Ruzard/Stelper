@@ -5,6 +5,7 @@ public enum ResponseStatus {
 	RATING_NEUTRAL_EXCEPTION("Post cannot receive neutral rating"),
 	ACCESS_VIOLATION("Banned users do not have rights"),
 	ROLLBACK_OCCURED("Handling exception, object deletion is needed"),
+	DATA_VALIDATION_EXCEPTION("You have some data: "),
 	OK("SUCCESS");
 
 
