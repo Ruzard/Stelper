@@ -24,8 +24,12 @@ public class CreationTests extends UnitTest {
 	public void bannedUserPostCreation() {
 		User user = User.find("byUsername", "BannedBob").first();
 
+		long initialPostCount = UniversalPost.count();
+
 		ResponseStatus response = PostService.createPost(universalPost, user);
 		assertEquals(ResponseStatus.ACCESS_VIOLATION, response);
+
+		assertEquals(initialPostCount, UniversalPost.count());
 	}
 
 	@Test

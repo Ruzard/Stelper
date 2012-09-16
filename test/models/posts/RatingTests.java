@@ -26,52 +26,53 @@ public class RatingTests extends UnitTest {
 
 	@Test
 	public void changePostRating() {
+		assertTrue(assertRatingEquals(0, 0, 0, universalPost.rating));
+
 		User initiator = User.find("byUsername", "Commenter").first();
-
-		int positiveRating = universalPost.rating.positive;
-		int neutralRating = universalPost.rating.neutral;
-		int negativeRating = universalPost.rating.negative;
-
 		PostService.changeRating(universalPost, initiator, POSITIVE);
 
 		UniversalPost changedPost = UniversalPost.all().first();
-
-		assertNotSame(positiveRating, changedPost.rating.positive);
-		assertSame(neutralRating, changedPost.rating.neutral);
-		assertSame(negativeRating, changedPost.rating.negative);
+		assertTrue(assertRatingEquals(1, 0, 0, changedPost.rating));
 	}
 
 	@Test
 	public void failedChangePostRatingNeutral() {
 		User initiator = User.find("byUsername", "Commenter").first();
+
+		assertTrue(assertRatingEquals(0, 0, 0, universalPost.rating));
+
 		ResponseStatus status = PostService.changeRating(universalPost, initiator, NEUTRAL);
 		assertEquals(ResponseStatus.RATING_NEUTRAL_EXCEPTION, status);
+
+		assertTrue(assertRatingEquals(0, 0, 0, universalPost.rating));
 	}
 
 	@Test
 	public void failedOverusingPostRating() {
-		assertEquals(0, universalPost.rating.negative);
-		assertEquals(0, universalPost.rating.neutral);
-		assertEquals(0, universalPost.rating.negative);
-
+		assertTrue(assertRatingEquals(0, 0, 0, universalPost.rating));
 
 		User initiator = User.find("byUsername", "Commenter").first();
 		ResponseStatus statusFirst = PostService.changeRating(universalPost, initiator, POSITIVE);
 		assertEquals(OK, statusFirst);
+
 		UniversalPost firstChange = UniversalPost.findById(universalPost.id);
-		assertEquals(1, firstChange.rating.positive);
-		assertEquals(0, firstChange.rating.neutral);
-		assertEquals(0, firstChange.rating.negative);
+		assertTrue(assertRatingEquals(1, 0, 0, firstChange.rating));
 
 		initiator = User.find("byUsername", "Commenter").first();
 		ResponseStatus statusSecond = PostService.changeRating(firstChange, initiator, POSITIVE);
 		assertEquals(RATING_ALREADY_CHANGED, statusSecond);
 
 		UniversalPost secondChange = UniversalPost.findById(firstChange.id);
-		assertEquals(1, secondChange.rating.positive);
-		assertEquals(0, secondChange.rating.neutral);
-		assertEquals(0, secondChange.rating.negative);
+		assertTrue(assertRatingEquals(1, 0, 0, secondChange.rating));
 
+	}
+
+	private boolean assertRatingEquals(int positive, int neutral, int negative, Rating rating) {
+		boolean positiveEquals = positive == rating.positive;
+		boolean neutralEquals = neutral == rating.neutral;
+		boolean negativeEquals = negative == rating.negative;
+
+		return positiveEquals && neutralEquals && negativeEquals;
 	}
 
 }
