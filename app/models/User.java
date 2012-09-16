@@ -8,6 +8,7 @@ import play.data.validation.*;
 import play.db.jpa.Model;
 
 @Entity
+@Table(name = "StUser")
 public class User extends Model {
 
 	@Required
@@ -56,7 +57,7 @@ public class User extends Model {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "author")
 	public List<PortfolioObject> portfolio;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "author")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "receiver")
 	public List<Feedback> feedbacks;
 
 	public ReportState reportState;
