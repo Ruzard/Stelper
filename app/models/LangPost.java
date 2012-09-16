@@ -27,6 +27,13 @@ public class LangPost extends Model {
 	public UniversalPost parentPost;
 
 	public LangPost() {
+		this("Untitled", "No body", Language.EN);
+	}
+
+	public LangPost(String title, String body, Language language) {
+		this.title = title;
+		this.body = body;
+		this.language = language;
 		comments = new ArrayList<Comment>();
 	}
 }

@@ -12,15 +12,18 @@ import static models.enums.ResponseStatus.OK;
 import static models.enums.ResponseStatus.RATING_ALREADY_CHANGED;
 
 public class BasicPostTests extends UnitTest {
+
+	private UniversalPost universalPost;
+
 	@Before
 	public void prepare() {
 		Fixtures.deleteDatabase();
 		Fixtures.loadModels("data.yml");
+		universalPost = UniversalPost.all().first();
 	}
 
-	@Test()
+	@Test
 	public void bannedUserPostCreation() {
-		UniversalPost universalPost = UniversalPost.all().first();
 		User user = User.find("byUsername", "BannedBob").first();
 		ResponseStatus response = PostService.createPost(universalPost, user);
 		assertEquals(ResponseStatus.ACCESS_VIOLATION, response);
@@ -28,9 +31,11 @@ public class BasicPostTests extends UnitTest {
 
 	@Test
 	public void postCreation() {
-		UniversalPost universalPost = UniversalPost.all().first();
+		UniversalPost postFirst = new UniversalPost();
+		postFirst.addLangPost(new LangPost("Title", "Body", Language.EN));
+
 		User user = User.find("byUsername", "Bob").first();
-		PostService.createPost(universalPost, user);
+		PostService.createPost(postFirst, user);
 
 		UniversalPost post = UniversalPost.find("byAuthor", user).first();
 		assertNotNull(post);
@@ -39,15 +44,35 @@ public class BasicPostTests extends UnitTest {
 	}
 
 	@Test
+	public void restrictedUserPostCreation() {
+		UniversalPost postFirst = new UniversalPost();
+		postFirst.addLangPost(new LangPost("Title", "Body", Language.EN));
+
+		long initialPostCount = UniversalPost.count();
+
+		User bannedUser = User.find("byStatus", UserStatus.BANNED).first();
+		ResponseStatus firstStatus = PostService.createPost(postFirst, bannedUser);
+		assertEquals(ResponseStatus.ACCESS_VIOLATION, firstStatus);
+
+		UniversalPost postSecond = new UniversalPost();
+		postSecond.addLangPost(new LangPost("Title", "Body", Language.ET));
+
+		User frozenUser = User.find("byStatus", UserStatus.FROZEN).first();
+		ResponseStatus secondStatus = PostService.createPost(postSecond, frozenUser);
+		assertEquals(ResponseStatus.ACCESS_VIOLATION, secondStatus);
+
+		assertTrue(initialPostCount == UniversalPost.count());
+	}
+
+	@Test
 	public void changePostRating() {
-		UniversalPost post = UniversalPost.all().first();
 		User initiator = User.find("byUsername", "Commenter").first();
 
-		int positiveRating = post.rating.positive;
-		int neutralRating = post.rating.neutral;
-		int negativeRating = post.rating.negative;
+		int positiveRating = universalPost.rating.positive;
+		int neutralRating = universalPost.rating.neutral;
+		int negativeRating = universalPost.rating.negative;
 
-		PostService.changeRating(post, initiator, POSITIVE);
+		PostService.changeRating(universalPost, initiator, POSITIVE);
 
 		UniversalPost changedPost = UniversalPost.all().first();
 
@@ -57,25 +82,23 @@ public class BasicPostTests extends UnitTest {
 	}
 
 	@Test
-	public void failedChangePostRating() {
-		UniversalPost post = UniversalPost.all().first();
+	public void failedChangePostRatingNeutral() {
 		User initiator = User.find("byUsername", "Commenter").first();
-		ResponseStatus status = PostService.changeRating(post, initiator, NEUTRAL);
+		ResponseStatus status = PostService.changeRating(universalPost, initiator, NEUTRAL);
 		assertEquals(ResponseStatus.RATING_NEUTRAL_EXCEPTION, status);
 	}
 
 	@Test
 	public void failedOverusingPostRating() {
-		UniversalPost post = UniversalPost.all().first();
-		assertEquals(0, post.rating.negative);
-		assertEquals(0, post.rating.neutral);
-		assertEquals(0, post.rating.negative);
+		assertEquals(0, universalPost.rating.negative);
+		assertEquals(0, universalPost.rating.neutral);
+		assertEquals(0, universalPost.rating.negative);
 
 
 		User initiator = User.find("byUsername", "Commenter").first();
-		ResponseStatus statusFirst = PostService.changeRating(post, initiator, POSITIVE);
+		ResponseStatus statusFirst = PostService.changeRating(universalPost, initiator, POSITIVE);
 		assertEquals(OK, statusFirst);
-		UniversalPost firstChange = UniversalPost.findById(post.id);
+		UniversalPost firstChange = UniversalPost.findById(universalPost.id);
 		assertEquals(1, firstChange.rating.positive);
 		assertEquals(1, firstChange.rating.positive);
 		assertEquals(0, firstChange.rating.neutral);
