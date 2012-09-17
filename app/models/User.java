@@ -13,6 +13,7 @@ public class User extends Model {
 
 	@Required
 	@Unique
+	@Column(unique = true)
 	public String username;
 
 	public String firstName;

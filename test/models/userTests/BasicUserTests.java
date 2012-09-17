@@ -1,5 +1,6 @@
 package models.userTests;
 
+import javax.persistence.PersistenceException;
 import models.User;
 import models.enums.Country;
 import org.junit.*;
@@ -24,8 +25,7 @@ public class BasicUserTests extends UnitTest {
 		assertEquals(User.count(), 0);
 	}
 
-	@Ignore
-	@Test
+	@Test(expected = PersistenceException.class)
 	public void multipleUserRegistered() {
 		for (int i = 0; i < 5; i++) {
 			User user = createTestUser();
