@@ -21,6 +21,7 @@ public class UniversalPost extends Model {
 	@Required
 	public List<LangPost> posts;
 
+	@OneToOne(cascade = CascadeType.ALL)
 	public Rating rating;
 	public int suspiciousLevel;
 

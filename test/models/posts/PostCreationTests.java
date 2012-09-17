@@ -77,7 +77,6 @@ public class PostCreationTests extends UnitTest {
 
 
 	private void createSamplePost(User author) throws AccessViolationException, DataValidationException {
-		//banned user post creation
 		UniversalPost postFirst = new UniversalPost();
 		postFirst.addLangPost(new LangPost("Title", "Body", Language.EN));
 

@@ -30,6 +30,10 @@ public class PostService {
 			return RATING_ALREADY_CHANGED;
 		}
 
+		if (post.type != PostType.UPLOAD) {
+			return RATING_EXCEPTION;
+		}
+
 		switch (changeType) {
 			case POSITIVE:
 				post.rating.positive++;

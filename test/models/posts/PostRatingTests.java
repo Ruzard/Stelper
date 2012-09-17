@@ -1,7 +1,7 @@
 package models.posts;
 
 import models.*;
-import models.enums.ResponseStatus;
+import models.enums.*;
 import org.junit.*;
 import play.test.*;
 import services.PostService;
@@ -21,7 +21,7 @@ public class PostRatingTests extends UnitTest {
 		Fixtures.loadModels("data.yml");
 
 		//stored post
-		universalPost = UniversalPost.all().first();
+		universalPost = UniversalPost.find("byType", PostType.UPLOAD).first();
 	}
 
 	@Test
@@ -53,18 +53,29 @@ public class PostRatingTests extends UnitTest {
 
 		User initiator = User.find("byUsername", "Commenter").first();
 		ResponseStatus statusFirst = PostService.changeRating(universalPost, initiator, POSITIVE);
-		assertEquals(OK, statusFirst);
+		assertEquals("Status should be OK", OK, statusFirst);
 
 		UniversalPost firstChange = UniversalPost.findById(universalPost.id);
-		assertTrue(assertRatingEquals(1, 0, 0, firstChange.rating));
+		assertTrue("Rating should have changed", assertRatingEquals(1, 0, 0, firstChange.rating));
 
 		initiator = User.find("byUsername", "Commenter").first();
 		ResponseStatus statusSecond = PostService.changeRating(firstChange, initiator, POSITIVE);
-		assertEquals(RATING_ALREADY_CHANGED, statusSecond);
+		assertEquals("Status should be RATING_ALREADY_CHANGED", RATING_ALREADY_CHANGED, statusSecond);
 
 		UniversalPost secondChange = UniversalPost.findById(firstChange.id);
-		assertTrue(assertRatingEquals(1, 0, 0, secondChange.rating));
+		assertTrue("Rating should not have changed", assertRatingEquals(1, 0, 0, secondChange.rating));
+	}
 
+	@Test
+	public void rateOfferPost() {
+		universalPost.type = PostType.OFFER;
+		universalPost = universalPost.save();
+
+		User user = User.find("byStatus", UserStatus.ACTIVE).first();
+
+		assertTrue("Rating should be null initially", assertRatingEquals(0, 0, 0, universalPost.rating));
+		PostService.changeRating(universalPost, user, RatingType.POSITIVE);
+		assertTrue("Rating should not be changed", assertRatingEquals(0, 0, 0, universalPost.rating));
 	}
 
 	private boolean assertRatingEquals(int positive, int neutral, int negative, Rating rating) {

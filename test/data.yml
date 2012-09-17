@@ -2,6 +2,10 @@
 # and then load them using Fixtures.load("data.yml")
 
 
+Rating(zeroRating):
+  positive: 0
+  negative: 0
+  neutral: 0
 
 User(bob):
   email: bob@gmail.com
@@ -23,6 +27,7 @@ User(frozen):
   username: frozen
   country: EE
   status: FROZEN
+  rating: zeroRating
 
 User(banned):
   email: banned@gmail.com
@@ -30,11 +35,13 @@ User(banned):
   username: BannedBob
   country: EE
   status: BANNED
+  rating: zeroRating
 
 UniversalPost(firstPost):
    type: OFFER
    author: bob
    posts: [langPostFirst, langPostSecond]
+   rating: zeroRating
 
 LangPost(langPostFirst):
   title:  "HelloTitle"
@@ -48,5 +55,22 @@ LangPost(langPostSecond):
   language: RU
   parentPost: firstPost
 
+UniversalPost(firstPost):
+   type: UPLOAD
+   author: bob
+   posts: [langPostFirst, langPostSecond]
+   rating: zeroRating
+
+LangPost(langPostFirst):
+  title:  "HelloTitle"
+  body:   "HelloBody"
+  language: ET
+  parentPost: firstPost
+
+LangPost(langPostSecond):
+  title:  "HelloSecondTitle"
+  body:   "HelloSecondBody"
+  language: RU
+  parentPost: firstPost
 
 
