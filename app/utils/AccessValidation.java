@@ -12,4 +12,8 @@ public class AccessValidation {
 		}
 		return true;
 	}
+
+	public static boolean commentCreationAllowed(User author) {
+		return postCreationAllowed(author); //logic is the same atm
+	}
 }

@@ -13,12 +13,10 @@ public class PostService {
 
 		if (!AccessValidation.postCreationAllowed(author)) {
 			throw new AccessViolationException("You are not allowed to post with status " + author.status);
-//			return ACCESS_VIOLATION.specifyMessage();
 		}
 
 		if (post.posts.isEmpty()) {
 			throw new DataValidationException(post + " missing translated posts");
-//			return DATA_VALIDATION_EXCEPTION.specifyMessage(post + " missing translated posts");
 		}
 		post.author = author;
 		return post.save();
@@ -51,5 +49,16 @@ public class PostService {
 		initiator.save();
 
 		return OK;
+	}
+
+	public static Comment addPostComment(User author, LangPost post, Comment comment) throws AccessViolationException {
+
+		if (!AccessValidation.commentCreationAllowed(author)) {
+			throw new AccessViolationException("You are not allowed to post with status " + author.status);
+		}
+
+		comment.author = author;
+		post.addComment(comment);
+		return comment;
 	}
 }
