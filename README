@@ -1,1 +1,119 @@
-This file was created by IntelliJ IDEA (Leda) IU-122.327 for binding GitHub repository
+! - not in the university phase
+
+List of functions needed to be implemented
+
+First step (Main objects):
+  Search
+		Search filters:
+			1) Education level
+			2) Geographical location
+				-country
+				-city
+			3) Language
+			4) Text field (tags > title)
+		Navigation:
+			1) Choose category (mathematics, informatics, history)
+			2) filters from the list above
+	
+	
+	!Data distribution (store data in distributed DBs)
+		1) Users - by country
+		2) Content - by langauge
+	
+	
+	
+	Posts
+		any post
+			title
+			description
+			attachment
+	
+		1) Search for help
+			comments (private, visible just to post's and comment's author)
+			multilingual
+	
+		2) Offering help
+			multilingual
+	
+		3) ufPost (uploaded-file post)
+			post rating
+			comments (public)
+	
+		4) Frozen (any of above)
+			hidden
+			visible for admins in Admin Panel 
+	
+	
+	
+	Users
+		0) Any user
+			use advanced search
+	
+		1) Guest
+			can see post titles //under review
+			can see nicknames
+			register
+			nothing else
+	
+		2) Common user
+			Create post(any)
+			Comment posts(any)
+			Rate ufPosts
+			Leave feedback (in User profiles)
+			make reports
+			write Private Messages
+	
+		3) Super user
+			Everything common user can
+			Add additional tags
+	
+		4) Admin
+			Creating tags without limits
+			Editing and deleting any content(category, tags, posts, comments, profiles)
+			Warning and bans for users
+	
+		5) Frozen ( >= x reports)
+			Rights like guests
+	
+	
+	
+	Report
+		1) Report users
+			after 5 reports move to Frozen state
+		2) Report content
+			after 5 reports freeze topic (hidden)
+	
+	
+	
+	Comments
+		1) private comments
+			only in "Search for help" posts
+			first comment visible to everybody
+			!=1st visible only for post and comment author
+	
+		2) public comments
+			only in "ufPosts"
+			linear structure
+	
+	
+	
+	Private Messages
+		1) Simple chat
+			linear
+			"user based", without topics
+	
+		2) ?
+	
+	
+	
+	Rating
+		0) Any
+			only "Positive", "Neutral", "Negative" values
+		1) User rating
+			required to leave feedback (text)
+		2) Post rating
+			only for "ufPost"
+	
+	Files
+		any files
+		up to 5 for any post
