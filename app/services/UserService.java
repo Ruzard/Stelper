@@ -11,4 +11,8 @@ public class UserService {
 	public static User connect(String username, String password) {
 		return User.find("byUsernameAndPassword", username, password).first();
 	}
+
+	public static boolean updateInfo(User user) {
+		return user.validateAndSave();
+	}
 }

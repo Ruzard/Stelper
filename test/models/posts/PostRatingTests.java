@@ -6,8 +6,7 @@ import org.junit.*;
 import play.test.*;
 import services.PostService;
 
-import static models.enums.RatingType.NEUTRAL;
-import static models.enums.RatingType.POSITIVE;
+import static models.enums.RatingType.*;
 import static models.enums.ResponseStatus.OK;
 import static models.enums.ResponseStatus.RATING_ALREADY_CHANGED;
 
@@ -29,10 +28,10 @@ public class PostRatingTests extends UnitTest {
 		assertTrue(assertRatingEquals(0, 0, 0, universalPost.rating));
 
 		User initiator = User.find("byUsername", "Commenter").first();
-		PostService.changeRating(universalPost, initiator, POSITIVE);
+		PostService.changeRating(universalPost, initiator, NEGATIVE);
 
 		UniversalPost changedPost = UniversalPost.all().first();
-		assertTrue(assertRatingEquals(1, 0, 0, changedPost.rating));
+		assertTrue(assertRatingEquals(0, 0, 1, changedPost.rating));
 	}
 
 	@Test

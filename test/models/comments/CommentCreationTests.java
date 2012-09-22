@@ -23,6 +23,13 @@ public class CommentCreationTests extends UnitTest {
 	private Comment comment;
 
 	@Test
+	public void addCommentBasic() {
+		long initialCommentCount = Comment.count();
+		langPost.addComment(comment);
+		assertNotSame("Comment has not been posted", initialCommentCount, Comment.count());
+	}
+
+	@Test
 	public void createParentComment() throws AccessViolationException {
 		User author = User.find("byStatus", UserStatus.ACTIVE).first();
 
