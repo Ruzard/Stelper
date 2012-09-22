@@ -51,14 +51,13 @@ public class PostService {
 		return OK;
 	}
 
-	public static Comment addPostComment(User author, LangPost post, Comment comment) throws AccessViolationException {
+	public static boolean addPostComment(User author, LangPost post, Comment comment) throws AccessViolationException {
 
 		if (!AccessValidation.commentCreationAllowed(author)) {
 			throw new AccessViolationException("You are not allowed to post with status " + author.status);
 		}
 
 		comment.author = author;
-		post.addComment(comment);
-		return comment;
+		return post.addComment(comment);
 	}
 }

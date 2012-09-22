@@ -15,6 +15,7 @@ public class LangPost extends Model {
 	public String body;
 
 	@OneToMany(mappedBy = "parentPost", cascade = CascadeType.ALL)
+	@ElementCollection
 	public List<Comment> comments;
 
 	@ElementCollection
@@ -37,8 +38,8 @@ public class LangPost extends Model {
 		comments = new ArrayList<Comment>();
 	}
 
-	public void addComment(Comment comment) {
+	public boolean addComment(Comment comment) {
 		comments.add(comment);
-		validateAndSave();
+		return validateAndSave();
 	}
 }

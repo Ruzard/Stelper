@@ -10,6 +10,7 @@ import play.db.jpa.Model;
 public class Comment extends Model {
 	@ManyToOne
 	public User author;
+	@Required
 	public String body;
 	@Required
 	public Date postedAt;

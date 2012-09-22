@@ -13,20 +13,24 @@ public class CommentCreationTests extends UnitTest {
 		Fixtures.deleteDatabase();
 		Fixtures.loadModels("data.yml");
 
-		langPost = (LangPost) LangPost.findAll().get(0);
+		langPost = LangPost.all().first();
 
 		comment = new Comment();
 		comment.body = "body";
+		comment.author = User.find("byStatus", UserStatus.ACTIVE).first();
 	}
 
 	private LangPost langPost;
 	private Comment comment;
 
 	@Test
-	public void addCommentBasic() {
+	public void addCommentBasic() throws AccessViolationException {
 		long initialCommentCount = Comment.count();
+		long initialPostComments = langPost.comments.size();
 		langPost.addComment(comment);
-		assertNotSame("Comment has not been posted", initialCommentCount, Comment.count());
+		assertNotSame("comment hasn't been added to the database", initialCommentCount,
+		              Comment.count());
+		assertFalse("comment hasn't been added to the post", initialPostComments == langPost.comments.size());
 	}
 
 	@Test
@@ -34,10 +38,12 @@ public class CommentCreationTests extends UnitTest {
 		User author = User.find("byStatus", UserStatus.ACTIVE).first();
 
 		long initialCommentsCount = Comment.count();
+		long initialPostCommentsCount = langPost.comments.size();
 		PostService.addPostComment(author, langPost, comment);
 
 		assertEquals("Comment has not been created", initialCommentsCount + 1, Comment.count());
-		assertNotSame("Comment has not been assigned to the post", 1, langPost.comments.size());
+		assertTrue("Comment has not been assigned to the post", initialPostCommentsCount + 1 == langPost.comments.size
+				());
 	}
 
 	@Test(expected = AccessViolationException.class)

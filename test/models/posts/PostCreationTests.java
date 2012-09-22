@@ -22,20 +22,15 @@ public class PostCreationTests extends UnitTest {
 	}
 
 	@Test
-	public void postSuccessCreation() {
+	public void postSuccessCreation() throws AccessViolationException, DataValidationException {
 		User user = User.find("byUsername", "Bob").first();
 		UniversalPost universalPost = new UniversalPost();
 		universalPost.addLangPost(new LangPost("Title", "Body", Language.EN));
 
 		UniversalPost createdPost = null;
-		try {
-			createdPost = PostService.createPost(universalPost, user);
-		} catch (DataValidationException e) {
-			e.printStackTrace();
-		} catch (AccessViolationException e) {
-			e.printStackTrace();
-		}
+		createdPost = PostService.createPost(universalPost, user);
 
+		assertNotSame(0, user.posts.size());
 		assertNotNull(createdPost);
 		assertNotNull(createdPost.postedAt);
 		assertNotSame(0, createdPost.posts.size());
