@@ -69,7 +69,7 @@ public class PostRatingTests extends UnitTest {
 	@Test
 	public void rateOfferPost() {
 		universalPost.type = PostType.OFFER;
-		universalPost = universalPost.save();
+		assertTrue("Post should have been created", universalPost.validateAndSave());
 
 		User user = User.find("byStatus", UserStatus.ACTIVE).first();
 

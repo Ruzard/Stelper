@@ -1,6 +1,5 @@
 package models.userTests;
 
-import javax.persistence.PersistenceException;
 import models.User;
 import models.enums.Country;
 import org.junit.*;
@@ -15,17 +14,28 @@ public class BasicUserTests extends UnitTest {
 	}
 
 	@Test
+	public void userRegisterNotFullInfo() {
+		long initialNumberOfUsers = User.count();
+
+		User user = new User();
+		user.username = "Ruzard";
+		user.password = "test";
+		assertFalse(user.validateAndSave());
+		assertEquals("User should not have been created", initialNumberOfUsers, User.count());
+
+	}
+
+	@Test
 	public void userRegister() {
 		User user = createTestUser();
-		User userToTest = UserService.register(user);
-		assertNotNull(userToTest);
+		assertTrue(UserService.register(user));
 		assertEquals(1, User.count());
 
 		user.delete();
 		assertEquals(User.count(), 0);
 	}
 
-	@Test(expected = PersistenceException.class)
+	@Test
 	public void multipleUserRegistered() {
 		for (int i = 0; i < 5; i++) {
 			User user = createTestUser();
@@ -37,7 +47,7 @@ public class BasicUserTests extends UnitTest {
 	@Test
 	public void connect() {
 		User user = createTestUser();
-		user.save();
+		user.validateAndSave();
 
 		User userUnderTest = UserService.connect("Username", "PassworT");
 		assertNull(userUnderTest);
