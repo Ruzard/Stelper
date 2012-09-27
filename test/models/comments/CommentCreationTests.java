@@ -8,20 +8,24 @@ import play.test.*;
 import services.PostService;
 
 public class CommentCreationTests extends UnitTest {
+
+	private User activeUser;
+	private LangPost langPost;
+	private Comment comment;
+
 	@Before
 	public void prepare() {
 		Fixtures.deleteDatabase();
 		Fixtures.loadModels("data.yml");
 
+		activeUser = User.find("byStatus", UserStatus.ACTIVE).first();
 		langPost = LangPost.all().first();
 
 		comment = new Comment();
 		comment.body = "body";
-		comment.author = User.find("byStatus", UserStatus.ACTIVE).first();
+		comment.author = activeUser;
 	}
 
-	private LangPost langPost;
-	private Comment comment;
 
 	@Test
 	public void addCommentBasic() throws AccessViolationException {
@@ -35,11 +39,10 @@ public class CommentCreationTests extends UnitTest {
 
 	@Test
 	public void createParentComment() throws AccessViolationException {
-		User author = User.find("byStatus", UserStatus.ACTIVE).first();
 
 		long initialCommentsCount = Comment.count();
 		long initialPostCommentsCount = langPost.comments.size();
-		PostService.addPostComment(author, langPost, comment);
+		PostService.addPostComment(activeUser, langPost, comment);
 
 		assertEquals("Comment has not been created", initialCommentsCount + 1, Comment.count());
 		assertTrue("Comment has not been assigned to the post", initialPostCommentsCount + 1 == langPost.comments.size
@@ -56,5 +59,10 @@ public class CommentCreationTests extends UnitTest {
 	public void bannedUserCommentCreation() throws AccessViolationException, DataValidationException {
 		User bannedUser = User.find("byStatus", UserStatus.BANNED).first();
 		PostService.addPostComment(bannedUser, langPost, comment);
+	}
+
+	@Test(expected = PostException.class)
+	public void closedPostCommentCreation() {
+
 	}
 }

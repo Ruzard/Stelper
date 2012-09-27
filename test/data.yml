@@ -126,4 +126,73 @@ Comment(uploadComment):
   body: "test body"
   parentTree: uploadCommentTree
 
+#CLOSED POST
+UniversalPost(closedPost):
+   type: SEARCH
+   author: bob
+   status: CLOSED
+   posts: [closedLangPost]
+   rating: zeroRating
+
+LangPost(closedLangPost):
+  title:  "ClosedPost"
+  body:   "HelloBody"
+  language: ET
+  parentPost: closedPost
+
+CommentTree(closedCommentTree):
+  parentPost: uploadLangPost
+  comments: [closedComment]
+
+Comment(closedComment):
+  author: commentPoster
+  body: "test body"
+  parentTree: closedCommentTree
+
+#BANNED POST
+UniversalPost(bannedPost):
+   type: SEARCH
+   status: BANNED
+   author: bob
+   posts: [bannedLangPost]
+   rating: zeroRating
+
+LangPost(bannedLangPost):
+  title:  "bannedPost"
+  body:   "HelloBody"
+  language: ET
+  parentPost: bannedPost
+
+CommentTree(bannedCommentTree):
+  parentPost: uploadLangPost
+  comments: [bannedComment]
+
+Comment(bannedComment):
+  author: commentPoster
+  body: "test body"
+  parentTree: bannedCommentTree
+
+
+#FROZEN POST
+UniversalPost(frozenPost):
+   type: SEARCH
+   author: bob
+   status: FROZEN
+   posts: [frozenLangPost]
+   rating: zeroRating
+
+LangPost(frozenLangPost):
+  title:  "frozenPost"
+  body:   "HelloBody"
+  language: ET
+  parentPost: frozenPost
+
+CommentTree(frozenCommentTree):
+  parentPost: uploadLangPost
+  comments: [frozenComment]
+
+Comment(frozenComment):
+  author: commentPoster
+  body: "test body"
+  parentTree: frozenCommentTree
 
