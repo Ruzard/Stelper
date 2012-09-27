@@ -58,9 +58,13 @@ public class PostService {
 	public static boolean addSubComment(CommentTree commentTree, Comment comment,
 	                                    User author) throws AccessViolationException, PostException {
 		checkAccess(author, "You are not allowed to add subComment");
+		UniversalPost parentPost = commentTree.parentPost.parentPost;
+		if (parentPost.type != PostType.SEARCH) {
+			throw new PostException("No subcomments are allowed in posts different from SEARCH");
+		}
 
+		User postAuthor = parentPost.author;
 		User commentTreeAuthor = commentTree.comments.get(0).author;
-		User postAuthor = commentTree.parentPost.parentPost.author;
 		if (!(commentTreeAuthor == author ^ postAuthor == author)) {
 			throw new PostException("Only post author and comment creator are able to discuss in subcomments");
 		}

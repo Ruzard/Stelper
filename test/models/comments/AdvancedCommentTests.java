@@ -1,7 +1,7 @@
 package models.comments;
 
 import models.*;
-import models.enums.UserStatus;
+import models.enums.*;
 import models.exceptions.*;
 import org.junit.*;
 import play.test.*;
@@ -61,7 +61,13 @@ public class AdvancedCommentTests extends UnitTest {
 		assertTrue("Comment should not been created", initialCommentCount == Comment.count());
 	}
 
-	@Test
-	public void addSubCommentWrongPostType() {
+	@Test(expected = PostException.class)
+	public void addSubCommentWrongPostType() throws AccessViolationException, PostException {
+		UniversalPost post = UniversalPost.find("byType", PostType.UPLOAD).first();
+		langPost = post.posts.get(0);
+
+		long initialCommentCount = Comment.count();
+		PostService.addSubComment(langPost.comments.get(0), comment, post.author);
+		assertTrue("No tree-comments are allowed in UPLOAD-posts", initialCommentCount == Comment.count());
 	}
 }
