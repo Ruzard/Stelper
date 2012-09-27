@@ -35,6 +35,13 @@ User(commentPoster):
   country: EE
   status: ACTIVE
 
+User(absoluteGuest):
+  email: guest@gmail.com
+  password: secret
+  username: AbsoluteGuest
+  country: EE
+  status: ACTIVE
+
 User(frozen):
   email: bob@gmail.com
   password: secret
@@ -51,70 +58,72 @@ User(banned):
   status: BANNED
   rating: zeroRating
 
-UniversalPost(firstPost):
-   type: OFFER
+
+#SEARCH POST
+UniversalPost(searchPost):
+   type: SEARCH
    author: bob
-   posts: [langPostFirst, langPostSecond]
+   posts: [searchLangPostFirst, searchLangPostSecond]
    rating: zeroRating
 
-LangPost(langPostFirst):
+LangPost(searchLangPostFirst):
   title:  "HelloTitle"
   body:   "HelloBody"
   language: ET
-  parentPost: firstPost
+  parentPost: searchPost
 
-LangPost(langPostSecond):
-  title:  "HelloSecondTitle"
-  body:   "HelloSecondBody"
-  language: RU
-  author: bob
-  parentPost: firstPost
-
-UniversalPost(firstPost):
-   type: UPLOAD
-   author: bob
-   posts: [langPostFirst, langPostSecond]
-   rating: zeroRating
-
-LangPost(langPostFirst):
-  title:  "HelloTitle"
-  body:   "HelloBody"
-  language: ET
-  parentPost: firstPost
-
-LangPost(langPostSecond):
+LangPost(searchLangPostSecond):
   title:  "PostWithComments"
   body:   "HelloSecondBody"
   language: RU
-  parentPost: firstPost
+  parentPost: searchPost
   comments: [firstCommentTree, secondCommentTree, thirdCommentTree]
 
 CommentTree(firstCommentTree):
-  parentPost: langPostSecond
+  parentPost: searchLangPostSecond
   comments: [firstComment]
-
-
-CommentTree(secondCommentTree):
-  parentPost: langPostSecond
-  comments: [secondComment]
-
-
-CommentTree(thirdCommentTree):
-  parentPost: langPostSecond
-  comments: [thirdComment]
 
 Comment(firstComment):
   author: commentPoster
   body: "test body"
   parentTree: firstCommentTree
 
-Comment(secondComment):
-  author: ted
-  body: "test body"
-  parentTree: secondCommentTree
 
-Comment(thirdComment):
-  author: john
+
+#OFFER POST
+UniversalPost(offerPost):
+   type: OFFER
+   author: bob
+   posts: [offerLangPost]
+   rating: zeroRating
+
+LangPost(offerLangPost):
+  title:  "OfferPost"
+  body:   "HelloBody"
+  language: ET
+  parentPost: offerPost
+
+
+#UPLOAD
+UniversalPost(uploadPost):
+   type: UPLOAD
+   author: bob
+   posts: [uploadLangPost]
+   rating: zeroRating
+
+LangPost(uploadLangPost):
+  title:  "UploadPost"
+  body:   "HelloBody"
+  language: ET
+  parentPost: uploadPost
+
+CommentTree(uploadCommentTree):
+  parentPost: uploadLangPost
+  comments: [uploadComment]
+
+Comment(uploadComment):
+  author: commentPoster
   body: "test body"
-  parentTree: thirdCommentTree
+  parentTree: uploadCommentTree
+
 

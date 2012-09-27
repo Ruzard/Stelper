@@ -10,10 +10,7 @@ import static models.enums.ResponseStatus.*;
 public class PostService {
 	public static UniversalPost createPost(UniversalPost post, User author) throws AccessViolationException,
 			DataValidationException {
-
-		if (!AccessValidation.postCreationAllowed(author)) {
-			throw new AccessViolationException("You are not allowed to post with status " + author.status);
-		}
+		checkAccess(author, "You are not allowed to create posts");
 
 		if (post.posts.isEmpty()) {
 			throw new DataValidationException(post + " missing translated posts");
@@ -52,17 +49,30 @@ public class PostService {
 	}
 
 	public static boolean addPostComment(User author, LangPost post, Comment comment) throws AccessViolationException {
-
-		if (!AccessValidation.commentCreationAllowed(author)) {
-			throw new AccessViolationException("You are not allowed to post with status " + author.status);
-		}
-
+		checkAccess(author, "You are not allowed to comment");
 		comment.author = author;
 		return post.addComment(comment);
 	}
 
-	public static boolean addSubComment(CommentTree commentTree, Comment comment, User postAuthor) {
-		comment.author = postAuthor;
+
+	public static boolean addSubComment(CommentTree commentTree, Comment comment,
+	                                    User author) throws AccessViolationException, PostException {
+		checkAccess(author, "You are not allowed to add subComment");
+
+		User commentTreeAuthor = commentTree.comments.get(0).author;
+		User postAuthor = commentTree.parentPost.parentPost.author;
+		if (!(commentTreeAuthor == author ^ postAuthor == author)) {
+			throw new PostException("Only post author and comment creator are able to discuss in subcomments");
+		}
+
+		comment.author = author;
 		return commentTree.addComment(comment);
+	}
+
+
+	private static void checkAccess(User author, String message) throws AccessViolationException {
+		if (!AccessValidation.commentCreationAllowed(author)) {
+			throw new AccessViolationException(message + "\nAuthor status:" + author.status);
+		}
 	}
 }

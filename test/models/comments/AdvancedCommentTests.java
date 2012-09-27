@@ -1,35 +1,67 @@
 package models.comments;
 
 import models.*;
+import models.enums.UserStatus;
+import models.exceptions.*;
 import org.junit.*;
 import play.test.*;
 import services.PostService;
 
 public class AdvancedCommentTests extends UnitTest {
 
-	private LangPost post;
+	private LangPost langPost;
+	private Comment comment;
+	private CommentTree commentTree;
 
 	@Before
 	public void prepare() {
 		Fixtures.deleteDatabase();
 		Fixtures.loadModels("data.yml");
 
-		post = LangPost.find("byTitle", "PostWithComments").first();
+		comment = new Comment();
+		comment.body = "New comment";
+
+		langPost = LangPost.find("byTitle", "PostWithComments").first();
+		commentTree = CommentTree.find("byParentPost", langPost).first();
 	}
 
 	@Test
-	public void basicAddSubComment() {
-		User postAuthor = post.parentPost.author;
-		CommentTree commentTree = CommentTree.find("byParentPost", post).first();
-
-		Comment comment = new Comment();
-		comment.author = postAuthor;
-		comment.body = "New comment";
-
+	public void basicAddSubComment() throws AccessViolationException, PostException {
 		long initialCommentCount = Comment.count();
-		PostService.addSubComment(commentTree, comment, postAuthor);
+		PostService.addSubComment(commentTree, comment, langPost.parentPost.author);
 		long count = Comment.count();
 		assertTrue(initialCommentCount != count);
-//		assertTrue(true);
+	}
+
+	@Test(expected = PostException.class)
+	public void addSubCommentWrongUser() throws AccessViolationException, PostException {
+		User absoluteGuest = User.find("byUsername", "AbsoluteGuest").first();
+
+		long initialCommentCount = Comment.count();
+		PostService.addSubComment(commentTree, comment, absoluteGuest);
+		long count = Comment.count();
+
+		String message = "User should not be able to add subcomment to somebody else's comment trees";
+		assertTrue(message, initialCommentCount == count);
+	}
+
+	@Test(expected = AccessViolationException.class)
+	public void addSubCommentBannedUser() throws AccessViolationException, PostException {
+		User bannedUser = User.find("byStatus", UserStatus.BANNED).first();
+		long initialCommentCount = Comment.count();
+		PostService.addSubComment(commentTree, comment, bannedUser);
+		assertTrue("Comment should not been created", initialCommentCount == Comment.count());
+	}
+
+	@Test(expected = AccessViolationException.class)
+	public void addSubCommentFrozenUser() throws AccessViolationException, PostException {
+		User bannedUser = User.find("byStatus", UserStatus.FROZEN).first();
+		long initialCommentCount = Comment.count();
+		PostService.addSubComment(commentTree, comment, bannedUser);
+		assertTrue("Comment should not been created", initialCommentCount == Comment.count());
+	}
+
+	@Test
+	public void addSubCommentWrongPostType() {
 	}
 }
