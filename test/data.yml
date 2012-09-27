@@ -14,6 +14,20 @@ User(bob):
   country: EE
   status: ACTIVE
 
+User(ted):
+  email: ted@gmail.com
+  password: secret
+  username: Ted
+  country: EE
+  status: ACTIVE
+
+User(john):
+  email: john@gmail.com
+  password: secret
+  username: John
+  country: EE
+  status: ACTIVE
+
 User(commentPoster):
   email: bob@gmail.com
   password: secret
@@ -53,6 +67,7 @@ LangPost(langPostSecond):
   title:  "HelloSecondTitle"
   body:   "HelloSecondBody"
   language: RU
+  author: bob
   parentPost: firstPost
 
 UniversalPost(firstPost):
@@ -68,16 +83,38 @@ LangPost(langPostFirst):
   parentPost: firstPost
 
 LangPost(langPostSecond):
-  title:  "HelloSecondTitle"
+  title:  "PostWithComments"
   body:   "HelloSecondBody"
   language: RU
   parentPost: firstPost
+  comments: [firstCommentTree, secondCommentTree, thirdCommentTree]
+
+CommentTree(firstCommentTree):
+  parentPost: langPostSecond
   comments: [firstComment]
 
-Comment(firstComment):
-  author: bob
-  body: "test body"
+
+CommentTree(secondCommentTree):
   parentPost: langPostSecond
+  comments: [secondComment]
 
 
+CommentTree(thirdCommentTree):
+  parentPost: langPostSecond
+  comments: [thirdComment]
+
+Comment(firstComment):
+  author: commentPoster
+  body: "test body"
+  parentTree: firstCommentTree
+
+Comment(secondComment):
+  author: ted
+  body: "test body"
+  parentTree: secondCommentTree
+
+Comment(thirdComment):
+  author: john
+  body: "test body"
+  parentTree: thirdCommentTree
 

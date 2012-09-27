@@ -14,9 +14,8 @@ public class Comment extends Model {
 	public String body;
 	@Required
 	public Date postedAt;
-
 	@ManyToOne
-	public LangPost parentPost;
+	public CommentTree parentTree;
 
 	public Comment() {
 		postedAt = new Date();

@@ -16,7 +16,7 @@ public class LangPost extends Model {
 
 	@OneToMany(mappedBy = "parentPost", cascade = CascadeType.ALL)
 	@ElementCollection
-	public List<Comment> comments;
+	public List<CommentTree> comments;
 
 	@ElementCollection
 	public List<Blob> fileList;
@@ -35,11 +35,11 @@ public class LangPost extends Model {
 		this.title = title;
 		this.body = body;
 		this.language = language;
-		comments = new ArrayList<Comment>();
+		comments = new ArrayList<CommentTree>();
 	}
 
 	public boolean addComment(Comment comment) {
-		comments.add(comment);
+		comments.add(new CommentTree(comment));
 		return validateAndSave();
 	}
 }

@@ -60,4 +60,9 @@ public class PostService {
 		comment.author = author;
 		return post.addComment(comment);
 	}
+
+	public static boolean addSubComment(CommentTree commentTree, Comment comment, User postAuthor) {
+		comment.author = postAuthor;
+		return commentTree.addComment(comment);
+	}
 }
