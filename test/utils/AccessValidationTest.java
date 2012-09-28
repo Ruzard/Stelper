@@ -21,5 +21,9 @@ public class AccessValidationTest extends UnitTest {
 		assertFalse("Frozen user should not get access", AccessValidation.postCreationAllowed(user));
 	}
 
-
+	@Test
+	public void postNullPointerTest() {
+		boolean test = AccessValidation.postCreationAllowed(null);
+		assertFalse("Should be false by default", test);
+	}
 }

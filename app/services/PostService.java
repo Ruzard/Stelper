@@ -48,10 +48,18 @@ public class PostService {
 		return OK;
 	}
 
-	public static boolean addPostComment(User author, LangPost post, Comment comment) throws AccessViolationException {
+	public static boolean addPostComment(User author, LangPost post, Comment comment) throws AccessViolationException,
+			PostException {
 		checkAccess(author, "You are not allowed to comment");
+		checkStatus(post.parentPost);
 		comment.author = author;
 		return post.addComment(comment);
+	}
+
+	private static void checkStatus(UniversalPost parentPost) throws PostException {
+		if (parentPost.status != PostStatus.OPEN) {
+			throw new PostException("Only open posts can be commented");
+		}
 	}
 
 
