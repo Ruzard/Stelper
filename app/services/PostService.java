@@ -8,15 +8,41 @@ import utils.AccessValidation;
 import static models.enums.ResponseStatus.*;
 
 public class PostService {
-	public static UniversalPost createPost(UniversalPost post, User author) throws AccessViolationException,
+	public static boolean createPost(UniversalPost post, User author) throws AccessViolationException,
 			DataValidationException {
 		checkAccess(author, "You are not allowed to create posts");
 
 		if (post.posts.isEmpty()) {
 			throw new DataValidationException(post + " missing translated posts");
 		}
+		checkTags(post);
+
+
 		post.author = author;
-		return post.save();
+		return post.validateAndSave();
+	}
+
+	private static void checkTags(UniversalPost post) throws DataValidationException {
+		boolean tagsValid = true;
+		for (LangPost langPost : post.posts) {
+			if (langPost.tags == null) {
+				tagsValid = false;
+				break;
+			}
+			if (langPost.tags.size() == 0) {
+				tagsValid = false;
+				break;
+			}
+
+			for (String tag : langPost.tags) {
+				if (tag.isEmpty()) {
+					tagsValid = false;
+					break;
+				}
+			}
+		}
+		if (!tagsValid)
+			throw new DataValidationException("Tags are empty");
 	}
 
 	public static ResponseStatus changeRating(UniversalPost post, User initiator, RatingType changeType) {

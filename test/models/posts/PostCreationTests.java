@@ -14,12 +14,14 @@ public class PostCreationTests extends UnitTest {
 	private UniversalPost universalPost;
 
 	private List<String> tags;
+	private User user;
 
 	@Before
 	public void prepare() {
 		Fixtures.deleteDatabase();
 		Fixtures.loadModels("data.yml");
 
+		user = User.find("byUsername", "Bob").first();
 		tags = new ArrayList<String>() {{
 			add("first tag");
 			add("second tag");
@@ -32,25 +34,31 @@ public class PostCreationTests extends UnitTest {
 
 	@Test
 	public void postSuccessCreation() throws AccessViolationException, DataValidationException {
-		User user = User.find("byUsername", "Bob").first();
 		UniversalPost universalPost = new UniversalPost();
+		universalPost.type = PostType.SEARCH;
 		universalPost.addLangPost(new LangPost("Title", "Body", Language.EN, tags));
 
-		UniversalPost createdPost = null;
-		createdPost = PostService.createPost(universalPost, user);
+		long initialPostCount = UniversalPost.count();
+		assertTrue(PostService.createPost(universalPost, user));
 
+		long expectedPostCount = initialPostCount + 1;
+		assertTrue(expectedPostCount == UniversalPost.count());
 		assertNotSame(0, user.posts.size());
-		assertNotNull(createdPost);
-		assertNotNull(createdPost.postedAt);
-		assertNotSame(0, createdPost.posts.size());
-		assertNotNull(createdPost.author);
-		assertNotNull(createdPost.rating);
-		assertEquals(PostStatus.OPEN, createdPost.status);
+	}
+
+	@Test(expected = DataValidationException.class)
+	public void postCreationTagsMissing() throws AccessViolationException, DataValidationException {
+		UniversalPost universalPost = new UniversalPost();
+		universalPost.addLangPost(new LangPost("Title", "Body", Language.EN, null));
+
+		long initialPostCount = UniversalPost.count();
+		PostService.createPost(universalPost, user);
+
+		assertTrue(initialPostCount == UniversalPost.count());
 	}
 
 	@Test(expected = DataValidationException.class)
 	public void creationWithoutContent() throws AccessViolationException, DataValidationException {
-		User user = User.find("byUsername", "Bob").first();
 		UniversalPost universalPost = new UniversalPost();
 
 		long initialPostCount = UniversalPost.count();
