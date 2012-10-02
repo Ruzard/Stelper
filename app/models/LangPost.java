@@ -19,6 +19,9 @@ public class LangPost extends Model {
 	public List<CommentTree> comments;
 
 	@ElementCollection
+	public List<String> tags;
+
+	@ElementCollection
 	public List<Blob> fileList;
 
 	@Required
@@ -28,14 +31,15 @@ public class LangPost extends Model {
 	public UniversalPost parentPost;
 
 	public LangPost() {
-		this("Untitled", "No body", Language.EN);
+		this("Untitled", "No body", Language.EN, new ArrayList<String>());
 	}
 
-	public LangPost(String title, String body, Language language) {
+	public LangPost(String title, String body, Language language, List<String> tags) {
 		this.title = title;
 		this.body = body;
 		this.language = language;
 		comments = new ArrayList<CommentTree>();
+		this.tags = tags;
 	}
 
 	public boolean addComment(Comment comment) {

@@ -1,5 +1,7 @@
 package models.posts;
 
+import java.util.*;
+
 import models.*;
 import models.enums.*;
 import models.exceptions.*;
@@ -11,21 +13,28 @@ public class PostCreationTests extends UnitTest {
 
 	private UniversalPost universalPost;
 
+	private List<String> tags;
+
 	@Before
 	public void prepare() {
 		Fixtures.deleteDatabase();
 		Fixtures.loadModels("data.yml");
 
+		tags = new ArrayList<String>() {{
+			add("first tag");
+			add("second tag");
+		}};
+
 		//not stored post
 		universalPost = new UniversalPost();
-		universalPost.addLangPost(new LangPost("Title", "Body", Language.EN));
+		universalPost.addLangPost(new LangPost("Title", "Body", Language.EN, tags));
 	}
 
 	@Test
 	public void postSuccessCreation() throws AccessViolationException, DataValidationException {
 		User user = User.find("byUsername", "Bob").first();
 		UniversalPost universalPost = new UniversalPost();
-		universalPost.addLangPost(new LangPost("Title", "Body", Language.EN));
+		universalPost.addLangPost(new LangPost("Title", "Body", Language.EN, tags));
 
 		UniversalPost createdPost = null;
 		createdPost = PostService.createPost(universalPost, user);
@@ -73,7 +82,7 @@ public class PostCreationTests extends UnitTest {
 
 	private void createSamplePost(User author) throws AccessViolationException, DataValidationException {
 		UniversalPost postFirst = new UniversalPost();
-		postFirst.addLangPost(new LangPost("Title", "Body", Language.EN));
+		postFirst.addLangPost(new LangPost("Title", "Body", Language.EN, tags));
 
 		PostService.createPost(postFirst, author);
 	}
