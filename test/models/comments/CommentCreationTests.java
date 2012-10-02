@@ -26,6 +26,21 @@ public class CommentCreationTests extends UnitTest {
 		comment.author = activeUser;
 	}
 
+	@Test
+	public void addCommentNullPointer() throws AccessViolationException, PostException {
+		long initialCommentsCount = Comment.count();
+		PostService.addPostComment(activeUser, langPost, null);
+		assertEquals("Comment should not be created", initialCommentsCount, Comment.count());
+
+		PostService.addPostComment(activeUser, null, comment);
+		assertEquals("Comment should not be created", initialCommentsCount, Comment.count());
+
+		PostService.addPostComment(null, langPost, comment);
+		assertEquals("Comment should not be created", initialCommentsCount, Comment.count());
+
+		PostService.addPostComment(null, null, null);
+		assertEquals("Comment should not be created", initialCommentsCount, Comment.count());
+	}
 
 	@Test
 	public void addCommentBasic() throws AccessViolationException {
@@ -39,10 +54,9 @@ public class CommentCreationTests extends UnitTest {
 
 	@Test
 	public void createParentComment() throws AccessViolationException, PostException {
-
+		long initialPostCommentsCount = langPost.comments.size();
 		long initialCommentsCount = Comment.count();
 
-		long initialPostCommentsCount = langPost.comments.size();
 		PostService.addPostComment(activeUser, langPost, comment);
 
 		assertEquals("Comment has not been created", initialCommentsCount + 1, Comment.count());

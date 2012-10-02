@@ -20,7 +20,11 @@ public class PostService {
 	}
 
 	public static ResponseStatus changeRating(UniversalPost post, User initiator, RatingType changeType) {
+		if (changeType == null || initiator == null || post == null) {
+			return ResponseStatus.DATA_VALIDATION_EXCEPTION;
+		}
 		ActivityHistory history = initiator.history;
+
 		if (history.ratedPosts.contains(post)) {
 			return RATING_ALREADY_CHANGED;
 		}
@@ -50,6 +54,9 @@ public class PostService {
 
 	public static boolean addPostComment(User author, LangPost post, Comment comment) throws AccessViolationException,
 			PostException {
+		if (author == null || post == null || comment == null) {
+			return false;
+		}
 		checkAccess(author, "You are not allowed to comment");
 		checkStatus(post.parentPost);
 		comment.author = author;
