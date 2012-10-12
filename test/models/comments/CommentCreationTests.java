@@ -33,7 +33,7 @@ public class CommentCreationTests extends UnitTest {
 		long initialPostComments = langPost.comments.size();
 		langPost.addComment(comment);
 		assertNotSame("comment hasn't been added to the database", initialCommentCount,
-		              Comment.count());
+				Comment.count());
 		assertFalse("comment hasn't been added to the post", initialPostComments == langPost.comments.size());
 	}
 
@@ -47,8 +47,7 @@ public class CommentCreationTests extends UnitTest {
 
 		assertEquals("Comment has not been created", initialCommentsCount + 1, Comment.count());
 		assertTrue("Comment has not been assigned to the post", initialPostCommentsCount + 1 == langPost.comments
-				.size
-						());
+				.size());
 	}
 
 	@Test(expected = AccessViolationException.class)
