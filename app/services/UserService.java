@@ -5,6 +5,9 @@ import models.User;
 public class UserService {
 
 	public static boolean register(User user) {
+		if (user == null) {
+			return false;
+		}
 		return user.validateAndSave();
 	}
 

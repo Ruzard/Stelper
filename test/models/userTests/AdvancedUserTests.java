@@ -15,6 +15,18 @@ public class AdvancedUserTests extends UnitTest {
 	}
 
 	@Test
+	public void connectNullPointerTest() {
+		User connectedUser = UserService.connect("Bob", null);
+		assertNull(connectedUser);
+
+		connectedUser = UserService.connect(null, "something");
+		assertNull(connectedUser);
+
+		connectedUser = UserService.connect(null, null);
+		assertNull(connectedUser);
+	}
+
+	@Test
 	public void updateUserInfo() {
 		User user = User.all().first();
 		EducationLevel educationLevel = user.educationLevel;

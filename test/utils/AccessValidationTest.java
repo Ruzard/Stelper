@@ -22,7 +22,7 @@ public class AccessValidationTest extends UnitTest {
 	}
 
 	@Test
-	public void postNullPointerTest() {
+	public void postAccessValidationNullPointerTest() {
 		boolean test = AccessValidation.postCreationAllowed(null);
 		assertFalse("Should be false by default", test);
 	}

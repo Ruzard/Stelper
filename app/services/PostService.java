@@ -8,19 +8,49 @@ import utils.AccessValidation;
 import static models.enums.ResponseStatus.*;
 
 public class PostService {
-	public static UniversalPost createPost(UniversalPost post, User author) throws AccessViolationException,
+	public static boolean createPost(UniversalPost post, User author) throws AccessViolationException,
 			DataValidationException {
 		checkAccess(author, "You are not allowed to create posts");
 
 		if (post.posts.isEmpty()) {
 			throw new DataValidationException(post + " missing translated posts");
 		}
+		checkTags(post);
+
+
 		post.author = author;
-		return post.save();
+		return post.validateAndSave();
+	}
+
+	private static void checkTags(UniversalPost post) throws DataValidationException {
+		boolean tagsValid = true;
+		for (LangPost langPost : post.posts) {
+			if (langPost.tags == null) {
+				tagsValid = false;
+				break;
+			}
+			if (langPost.tags.size() == 0) {
+				tagsValid = false;
+				break;
+			}
+
+			for (String tag : langPost.tags) {
+				if (tag.isEmpty()) {
+					tagsValid = false;
+					break;
+				}
+			}
+		}
+		if (!tagsValid)
+			throw new DataValidationException("Tags are empty");
 	}
 
 	public static ResponseStatus changeRating(UniversalPost post, User initiator, RatingType changeType) {
+		if (changeType == null || initiator == null || post == null) {
+			return ResponseStatus.DATA_VALIDATION_EXCEPTION;
+		}
 		ActivityHistory history = initiator.history;
+
 		if (history.ratedPosts.contains(post)) {
 			return RATING_ALREADY_CHANGED;
 		}
@@ -50,6 +80,9 @@ public class PostService {
 
 	public static boolean addPostComment(User author, LangPost post, Comment comment) throws AccessViolationException,
 			PostException {
+		if (author == null || post == null || comment == null) {
+			return false;
+		}
 		checkAccess(author, "You are not allowed to comment");
 		checkStatus(post.parentPost);
 		comment.author = author;
@@ -65,16 +98,16 @@ public class PostService {
 
 	public static boolean addSubComment(CommentTree commentTree, Comment comment,
 	                                    User author) throws AccessViolationException, PostException {
-		checkAccess(author, "You are not allowed to add subComment");
+		checkAccess(author, "You are not allowed to add sub comment");
 		UniversalPost parentPost = commentTree.parentPost.parentPost;
 		if (parentPost.type != PostType.SEARCH) {
-			throw new PostException("No subcomments are allowed in posts different from SEARCH");
+			throw new PostException("No sub comments are allowed in posts different from SEARCH");
 		}
 
 		User postAuthor = parentPost.author;
 		User commentTreeAuthor = commentTree.comments.get(0).author;
 		if (!(commentTreeAuthor == author ^ postAuthor == author)) {
-			throw new PostException("Only post author and comment creator are able to discuss in subcomments");
+			throw new PostException("Only post author and comment creator are able to discuss in sub comments");
 		}
 
 		comment.author = author;

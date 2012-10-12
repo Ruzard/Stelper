@@ -22,7 +22,6 @@ public class BasicUserTests extends UnitTest {
 		user.password = "test";
 		assertFalse(user.validateAndSave());
 		assertEquals("User should not have been created", initialNumberOfUsers, User.count());
-
 	}
 
 	@Test
@@ -33,6 +32,16 @@ public class BasicUserTests extends UnitTest {
 
 		user.delete();
 		assertEquals(User.count(), 0);
+	}
+
+	@Test
+	public void userRegisterNullPointer() {
+		User user = createTestUser();
+		user.username = null;
+
+		assertFalse(UserService.register(user));
+		assertFalse(UserService.register(null));
+
 	}
 
 	@Test
@@ -64,6 +73,4 @@ public class BasicUserTests extends UnitTest {
 		user.email = "email@email.com";
 		return user;
 	}
-
-
 }
