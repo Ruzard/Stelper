@@ -1,0 +1,45 @@
+#{set title:'Stelper' /}
+#{extends 'main.html'/}
+#{stylesheet src:'main.css'/}
+<div id="mainContent">
+
+    <h1>User created !</h1>
+
+    <p>
+        <strong>Desired username</strong> is ${username}
+    </p>
+
+    <p>
+        <strong>First name</strong> is ${firstname}
+    </p>
+
+    <p>
+        <strong>Last name</strong> is ${lastname}
+    </p>
+
+    <p>
+        <strong>Birthdate</strong> is ${birthdate}
+    </p>
+
+    <p>
+        <strong>Password</strong> is ${password}
+    </p>
+
+    <p>
+        <strong>Email</strong> is ${email}
+    </p>
+
+    <p>
+        <strong>About</strong> you: ${about}
+    </p>
+
+    <p>
+        <strong>Country</strong> is ${country}
+    </p>
+
+    <p>
+        <strong>City</strong> is ${city}
+    </p>
+
+#{a @Application.index()}Back#{/a}
+</div>
