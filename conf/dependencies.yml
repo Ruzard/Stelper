@@ -5,3 +5,4 @@ require:
 #    - play -> securesocial 0.2.4 # https://github.com/jaliss/securesocial/blob/1.x/documentation/manual/home.textile
 #    https://github.com/reyez/casino-play/blob/master/readme.textile
     - play -> cobertura 2.4
+    - play -> secure

@@ -1,0 +1,67 @@
+#{set title:'Stelper' /}
+#{extends 'main.html'/}
+#{stylesheet src:'main.css'/}
+<div id="mainContent">
+
+	<h1>Register</h1>
+#{form @Registration.handleSubmit()}
+	<fieldset>
+		<legend>User informations</legend>
+		<div class="field">
+			<label for="username">Desired username : </label>
+			<input id="username" type="text" name="user.username" value="${params['user.username']}"
+				   class="#{errorClass 'user.username' /}"/>
+			<span class="error">#{error 'user.username' /}</span>
+
+			<div class="field">
+				<label for="firstname">First name : </label>
+				<input id="firstname" type="text" name="user.firstname" size="30" value="${params['user.firstname']}"
+					   class="#{errorClass 'user.firstname' /}"/> <span class="error">#{error 'user.firstname' /}</span>
+			</div>
+			<div class="field">
+				<label for="lastname">Last name : </label>
+				<input id="lastname" type="text" name="user.lastname" size="30" value="${params['user.lastname']}"
+					   class="#{errorClass 'user.lastname' /}"/> <span class="error">#{error 'user.lastname' /}</span>
+			</div>
+			<div class="field">
+				<label for="birthdate">Birthdate : </label>
+				<input title="dd-MM-yyyy" id="birthdate" type="text" name="user.birthdate" size="30"
+					   value="${params['user.birthdate']}"
+					   class="#{errorClass 'user.birthdate' /}"/> <span class="error">#{error 'user.birthdate' /}</span>
+			</div>
+			<div class="field">
+				<label for="about">Tell about yourself : </label> <br>
+				<TEXTAREA id="about" name="user.about" COLS=40 ROWS=4 value="${params['user.about']}"/>
+				</TEXTAREA>
+			</div>
+			<div class="field">
+				<label for="country">Country : </label>
+				#{select items : models.enums.Country ,name:'user.country',id:'country'}#{/select}
+			</div>
+			<div class="field">
+				<label for="city">City : </label>
+				<input id="city" type="text" name="user.city" size="3" value="${params['user.city']}"
+					   class="#{errorClass 'user.city' /}"/> <span class="error">#{error 'user.city' /}</span>
+			</div>
+		</div>
+	</fieldset>
+	<fieldset>
+		<legend>Password</legend>
+		<div class="field">
+			<label for="password">Password : </label>
+			<input id="password" type="password" name="user.password" value="${params['user.password']}"
+				   class="#{errorClass 'user.password' /}"/> <span class="error">#{error 'user.password' /}</span>
+		</div>
+	</fieldset>
+	<fieldset>
+		<legend>Email</legend>
+		<div class="field">
+			<label for="email">Email address : </label>
+			<input id="email" type="text" name="user.email" size="30" value="${params['user.email']}"
+				   class="#{errorClass 'user.email' /}"/> <span class="error">#{error 'user.email' /}</span>
+		</div>
+	</fieldset>
+	<input type="submit" class="submit" value="Join !"/>
+#{/form}
+
+</div>
