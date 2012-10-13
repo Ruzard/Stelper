@@ -1,0 +1,39 @@
+#{set title:'Stelper' /}
+#{extends 'main.html'/}
+#{stylesheet src:'main.css'/}
+<div id="mainContent">
+
+    <h1>Add new post</h1>
+#{form @AddPost.handleSubmit()}
+    <fieldset>
+        <legend>Add new post</legend>
+        <div class="field">
+
+            <div class="field">
+                <label for="language">Language : </label>  <br>
+            #{select items : models.enums.Language ,name:'langPost.language',id:'language'}#{/select}
+            </div>
+
+            <label for="title">Title : </label>  <br>
+            <input id="title" type="text" name="langPost.title" value="${params['langPost.title']}"
+                   class="#{errorClass 'langPost.title' /}"/>
+            <span class="error">#{error 'langPost.title' /}</span>
+
+            <div class="field">
+                <label for="postBody">Body: </label> <br>
+                <TEXTAREA id="postBody" name="langPost.body" COLS="40" ROWS="4" value="${params['langPost.body']}">
+                </TEXTAREA>
+            </div>
+
+            <div class="field">
+                <label for="tags">Tags : </label>   <br>
+                <input id="tags" type="text" name="langPost.tags" size="30" value="${params['langPost.tags']}"
+                       class="#{errorClass 'langPost.tags' /}"/> <span class="error">#{error 'langPost.tags' /}</span>
+            </div>
+        </div>                  <br>
+
+    </fieldset><input type="submit" class="submit" value="Submit !"/>
+#{/form}
+
+</div>
+

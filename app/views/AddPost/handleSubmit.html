@@ -1,0 +1,25 @@
+#{set title:'Stelper' /}
+#{extends 'main.html'/}
+#{stylesheet src:'main.css'/}
+<div id="mainContent">
+
+    <h1>Post added!</h1>
+
+    <p>
+        <strong>Title</strong> is ${langPost.title}
+    </p>
+
+    <p>
+        <strong>Body</strong> is ${langPost.body}
+    </p>
+
+    <p>
+        <strong>Tags</strong> are ${langPost.tags}
+    </p>
+
+    <p>
+        <strong>Language</strong> is ${langPost.language}
+    </p>
+
+#{a @Application.index()}Back#{/a}
+</div>
