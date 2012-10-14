@@ -3,7 +3,9 @@ package models;
 import java.util.*;
 
 import javax.persistence.*;
+
 import models.enums.*;
+import play.data.binding.As;
 import play.data.validation.*;
 import play.db.jpa.Model;
 
@@ -19,7 +21,7 @@ public class User extends Model {
 	public String firstName;
 
 	public String lastName;
-
+	@As("dd.MM.yyyy")
 	public Date birthdate;
 
 	@Required

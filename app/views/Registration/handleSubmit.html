@@ -1,5 +1,5 @@
 #{set title:'Stelper' /}
-#{extends 'main.html'/}
+#{extends '/frontPage.html'/}
 #{stylesheet src:'main.css'/}
 <div id="mainContent">
 
@@ -41,5 +41,5 @@
         <strong>City</strong> is${user.city}
     </p>
 
-#{a @Application.index()}Back#{/a}
+#{a @GuestPage.index()}Back#{/a}
 </div>

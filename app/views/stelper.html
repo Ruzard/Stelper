@@ -13,17 +13,17 @@
 </head>
 <body>
 <div id="body">
-<div id="header">
-	<div id="logo">
-		<span class="logoSpan">Stelper</span>
+	<div id="header">
+		<div id="logo">
+			<span class="logoSpan">Stelper</span>
+		</div>
+		<div id="login">Hello, ${user.username}, want to #{a @Secure.logout()}Logout?#{/a}</div>
+		<div class="topLink">#{a @AddPost.addSearchPost()}New Search Post#{/a}</div>
+		<div class="topLink">#{a @AddPost.addOfferPost()}New Offer Post#{/a}</div>
+		<div class="topLink">#{a @AddPost.addUploadPost()}New Upload Post#{/a}</div>
 	</div>
-	<div id="login">Sign Up will be here</div>
-	<div class="topLink" style="margin-left: 100px;"><a href="/help/help">Get Help</a></div>
-	<div class="topLink">Offer Help</div>
-	<div class="topLink">Study Material</div>
-</div>
-#{doLayout /}
-<div id="footer">FOOTER GOES HERE</div>
+	<div id="mainContent">#{doLayout /}</div>
+	<div id="footer">FOOTER GOES HERE</div>
 </div>
 </body>
 </html>

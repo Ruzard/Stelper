@@ -3,7 +3,11 @@
 # ~~~~
 
 # Home page
-GET     /                                       Application.index
+GET     /                                       GuestPage.index
+GET     /register                               Registration.index
+GET     /stelper                                Stelper.stelper
+GET     /newpost/search                         AddPost.addSearchPost
+GET		/addcomment								AddComment.addComment
 
 # Ignore favicon requests
 GET     /favicon.ico                            404
