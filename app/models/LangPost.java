@@ -1,11 +1,17 @@
 package models;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import models.enums.Language;
 import play.data.validation.Required;
-import play.db.jpa.*;
+import play.db.jpa.Blob;
+import play.db.jpa.Model;
 
 @Entity
 public class LangPost extends Model {
@@ -15,8 +21,7 @@ public class LangPost extends Model {
 	public String body;
 
 	@OneToMany(mappedBy = "parentPost", cascade = CascadeType.ALL)
-	@ElementCollection
-	public List<CommentTree> comments;
+	public List<CommentTree> commentTrees;
 
 	@ElementCollection
 	public List<String> tags;
@@ -38,12 +43,15 @@ public class LangPost extends Model {
 		this.title = title;
 		this.body = body;
 		this.language = language;
-		comments = new ArrayList<CommentTree>();
+		commentTrees = new ArrayList<CommentTree>();
 		this.tags = tags;
 	}
 
-	public boolean addComment(Comment comment) {
-		comments.add(new CommentTree(comment));
+	public boolean addCommentTree(Comment comment) {
+		CommentTree commentTree = new CommentTree();
+		commentTree.parentPost = this;
+		commentTrees.add(commentTree);
+		commentTree.addComment(comment);
 		return validateAndSave();
 	}
 }

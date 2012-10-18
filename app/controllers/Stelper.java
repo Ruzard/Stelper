@@ -1,14 +1,18 @@
 package controllers;
 
+import java.util.List;
+
 import models.Comment;
-import models.CommentTree;
+import models.LangPost;
 import models.UniversalPost;
 import models.User;
+import models.exceptions.AccessViolationException;
+import models.exceptions.PostException;
 import play.data.validation.Valid;
-import play.mvc.*;
+import play.mvc.Before;
+import play.mvc.Controller;
+import play.mvc.With;
 import services.PostService;
-
-import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -19,10 +23,13 @@ import java.util.List;
  */
 @With(Secure.class)
 public class Stelper extends Controller {
+
+	private static User user;
+
 	@Before
 	static void setConnectedUser() {
 		if (Security.isConnected()) {
-			User user = User.find("byUsername", Security.connected()).first();
+			user = User.find("byUsername", Security.connected()).first();
 			if (user != null)
 				renderArgs.put("user", user);
 		}
@@ -49,7 +56,16 @@ public class Stelper extends Controller {
 			detailedPost(postId);
 		}
 		UniversalPost universalPost = UniversalPost.findById(postId);
-		universalPost.posts.get(0).addComment(comment);
+		LangPost langPost = universalPost.posts.get(0);
+
+		try {
+			PostService.addPostComment(user, langPost, comment);
+		} catch (AccessViolationException e) {
+			e.printStackTrace();
+		} catch (PostException e) {
+			e.printStackTrace();
+		}
+
 		detailedPost(postId);
 	}
 }

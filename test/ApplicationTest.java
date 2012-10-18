@@ -12,4 +12,19 @@ public class ApplicationTest extends FunctionalTest {
 		assertCharset(play.Play.defaultWebEncoding, response);
 	}
 
+	@Test
+	public void testRegistrationPageWorks() {
+		Response response = GET("/register");
+		assertIsOk(response);
+		assertContentMatch("First name", response);
+	}
+
+	//	@Test
+	public void testLoginPageWorks() {
+		Response response = GET("/stelper");
+		assertIsOk(response);
+
+
+	}
+
 }

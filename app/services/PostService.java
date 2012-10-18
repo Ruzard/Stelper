@@ -1,11 +1,24 @@
 package services;
 
-import models.*;
-import models.enums.*;
-import models.exceptions.*;
+import models.ActivityHistory;
+import models.Comment;
+import models.CommentTree;
+import models.LangPost;
+import models.UniversalPost;
+import models.User;
+import models.enums.PostStatus;
+import models.enums.PostType;
+import models.enums.RatingType;
+import models.enums.ResponseStatus;
+import models.exceptions.AccessViolationException;
+import models.exceptions.DataValidationException;
+import models.exceptions.PostException;
 import utils.AccessValidation;
 
-import static models.enums.ResponseStatus.*;
+import static models.enums.ResponseStatus.OK;
+import static models.enums.ResponseStatus.RATING_ALREADY_CHANGED;
+import static models.enums.ResponseStatus.RATING_EXCEPTION;
+import static models.enums.ResponseStatus.RATING_NEUTRAL_EXCEPTION;
 
 public class PostService {
 	public static boolean createPost(UniversalPost post, User author) throws AccessViolationException,
@@ -86,7 +99,7 @@ public class PostService {
 		checkAccess(author, "You are not allowed to comment");
 		checkStatus(post.parentPost);
 		comment.author = author;
-		return post.addComment(comment);
+		return post.addCommentTree(comment);
 	}
 
 	private static void checkStatus(UniversalPost parentPost) throws PostException {
@@ -96,8 +109,8 @@ public class PostService {
 	}
 
 
-	public static boolean addSubComment(CommentTree commentTree, Comment comment,
-	                                    User author) throws AccessViolationException, PostException {
+	public static void addSubComment(CommentTree commentTree, Comment comment,
+	                                 User author) throws AccessViolationException, PostException {
 		checkAccess(author, "You are not allowed to add sub comment");
 		UniversalPost parentPost = commentTree.parentPost.parentPost;
 		if (parentPost.type != PostType.SEARCH) {
@@ -111,7 +124,7 @@ public class PostService {
 		}
 
 		comment.author = author;
-		return commentTree.addComment(comment);
+		commentTree.addComment(comment);
 	}
 
 

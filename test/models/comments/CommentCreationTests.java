@@ -1,10 +1,16 @@
 package models.comments;
 
-import models.*;
+import models.Comment;
+import models.LangPost;
+import models.User;
 import models.enums.UserStatus;
-import models.exceptions.*;
-import org.junit.*;
-import play.test.*;
+import models.exceptions.AccessViolationException;
+import models.exceptions.DataValidationException;
+import models.exceptions.PostException;
+import org.junit.Before;
+import org.junit.Test;
+import play.test.Fixtures;
+import play.test.UnitTest;
 import services.PostService;
 
 public class CommentCreationTests extends UnitTest {
@@ -30,11 +36,11 @@ public class CommentCreationTests extends UnitTest {
 	@Test
 	public void addCommentBasic() throws AccessViolationException {
 		long initialCommentCount = Comment.count();
-		long initialPostComments = langPost.comments.size();
-		langPost.addComment(comment);
+		long initialPostComments = langPost.commentTrees.size();
+		langPost.addCommentTree(comment);
 		assertNotSame("comment hasn't been added to the database", initialCommentCount,
-				Comment.count());
-		assertFalse("comment hasn't been added to the post", initialPostComments == langPost.comments.size());
+		              Comment.count());
+		assertFalse("comment hasn't been added to the post", initialPostComments == langPost.commentTrees.size());
 	}
 
 	@Test
@@ -42,11 +48,11 @@ public class CommentCreationTests extends UnitTest {
 
 		long initialCommentsCount = Comment.count();
 
-		long initialPostCommentsCount = langPost.comments.size();
+		long initialPostCommentsCount = langPost.commentTrees.size();
 		PostService.addPostComment(activeUser, langPost, comment);
 
 		assertEquals("Comment has not been created", initialCommentsCount + 1, Comment.count());
-		assertTrue("Comment has not been assigned to the post", initialPostCommentsCount + 1 == langPost.comments
+		assertTrue("Comment has not been assigned to the post", initialPostCommentsCount + 1 == langPost.commentTrees
 				.size());
 	}
 

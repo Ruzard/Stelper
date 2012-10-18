@@ -1,14 +1,17 @@
 package models;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import play.db.jpa.Model;
 
 @Entity
 public class CommentTree extends Model {
 	@OneToMany(mappedBy = "parentTree", cascade = CascadeType.ALL)
-	@ElementCollection
 	public List<Comment> comments;
 	@ManyToOne
 	public LangPost parentPost;
@@ -22,8 +25,9 @@ public class CommentTree extends Model {
 		comments = new ArrayList<Comment>();
 	}
 
-	public boolean addComment(Comment comment) {
+	public void addComment(Comment comment) {
+		comment.parentTree = this;
 		comments.add(comment);
-		return validateAndSave();
+		validateAndSave();
 	}
 }

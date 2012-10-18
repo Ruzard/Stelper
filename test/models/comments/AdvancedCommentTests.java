@@ -1,10 +1,18 @@
 package models.comments;
 
-import models.*;
-import models.enums.*;
-import models.exceptions.*;
-import org.junit.*;
-import play.test.*;
+import models.Comment;
+import models.CommentTree;
+import models.LangPost;
+import models.UniversalPost;
+import models.User;
+import models.enums.PostType;
+import models.enums.UserStatus;
+import models.exceptions.AccessViolationException;
+import models.exceptions.PostException;
+import org.junit.Before;
+import org.junit.Test;
+import play.test.Fixtures;
+import play.test.UnitTest;
 import services.PostService;
 
 public class AdvancedCommentTests extends UnitTest {
@@ -30,7 +38,7 @@ public class AdvancedCommentTests extends UnitTest {
 		long initialCommentCount = Comment.count();
 		PostService.addSubComment(commentTree, comment, langPost.parentPost.author);
 		long count = Comment.count();
-		assertTrue(initialCommentCount != count);
+		assertTrue("comment was not created", initialCommentCount != count);
 	}
 
 	@Test(expected = PostException.class)
@@ -56,6 +64,6 @@ public class AdvancedCommentTests extends UnitTest {
 	public void addSubCommentWrongPostType() throws AccessViolationException, PostException {
 		UniversalPost post = UniversalPost.find("byType", PostType.UPLOAD).first();
 		langPost = post.posts.get(0);
-		PostService.addSubComment(langPost.comments.get(0), comment, post.author);
+		PostService.addSubComment(langPost.commentTrees.get(0), comment, post.author);
 	}
 }
