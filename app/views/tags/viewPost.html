@@ -1,0 +1,12 @@
+<div style="border: solid thin black;">
+	<span>Posted At : ${_arg.postedAt.format("dd.MM.yyyy,HH:mm:ss")}</span>
+	<span>${_arg.type}</span>
+	<span><strong>by ${_arg.author.username}</strong></span>
+#{list items:_arg.posts , as:'langPost'}
+	#{a @Stelper.detailedPost(_arg.id)}
+		<h3>${langPost.title}</h3>
+	#{/a}
+	<p>${langPost.body}</p>
+	<br>
+#{/list}
+</div>

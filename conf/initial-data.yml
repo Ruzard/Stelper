@@ -1,0 +1,8 @@
+# Test data
+
+User(bob):
+  email: bob@gmail.com
+  password: secret
+  username: Bob
+  country: EE
+  status: ACTIVE

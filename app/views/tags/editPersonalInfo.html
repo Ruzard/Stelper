@@ -1,0 +1,49 @@
+#{form @Profile.edit()}
+<fieldset>
+	<legend>User informations</legend>
+	<div class="field">
+		<input type="hidden" value="${_arg.username}">
+
+		<div class="field">
+			<label for="firstname">First name : </label>
+			<input id="firstname" type="text" name="user.firstname" size="30" value="${_arg.firstName}"
+				   class="#{errorClass 'user.firstname' /}"/> <span class="error">#{error 'user.firstname' /}</span>
+		</div>
+		<div class="field">
+			<label for="lastname">Last name : </label>
+			<input id="lastname" type="text" name="user.lastname" size="30" value="${_arg.lastName}"
+				   class="#{errorClass 'user.lastname' /}"/> <span class="error">#{error 'user.lastname' /}</span>
+		</div>
+		<div class="field">
+			<label for="birthdate">Birthdate : </label>
+			<input title="dd-MM-yyyy" id="birthdate" type="text" name="user.birthdate" size="30"
+				   value="${_arg.birthdate}"
+				   class="#{errorClass 'user.birthdate' /}"/> <span class="error">#{error 'user.birthdate' /}</span>
+		</div>
+		<div class="field">
+			<label for="about">Tell about yourself : </label> <br>
+			<TEXTAREA id="about" name="user.about" COLS=40 ROWS=4 value="${_arg.about}"/>
+			</TEXTAREA>
+		</div>
+		<div class="field">
+			<label for="country">Country : </label>
+			#{select items : models.enums.Country ,name:'user.country',id:'country',value:_arg.country}#{/select}
+		</div>
+		<div class="field">
+			<label for="city">City : </label>
+			<input id="city" type="text" name="user.city" size="3" value="${_arg.city}"
+				   class="#{errorClass 'user.city' /}"/> <span class="error">#{error 'user.city' /}</span>
+		</div>
+	</div>
+</fieldset>
+</fieldset>
+<fieldset>
+	<legend>Email</legend>
+	<div class="field">
+		<label for="email">Email address : </label>
+		<input id="email" type="text" name="user.email" size="30" value="${_arg.email}"
+			   class="#{errorClass 'user.email' /}"/> <span class="error">#{error 'user.email' /}</span>
+	</div>
+</fieldset>
+<input type="submit" class="submit" value="Edit !"/>
+#{/form}

@@ -17,7 +17,9 @@
 		<div id="logo">
 			<span class="logoSpan">Stelper</span>
 		</div>
-		<div id="login">Hello, ${user.username}, want to #{a @Secure.logout()}Logout?#{/a}</div>
+		<div id="login">Hello, ${user.username}, want to #{a @Secure.logout()}Logout?#{/a}<br>#{a @Profile.index()}
+			Profile#{/a}
+		</div>
 		<div class="topLink">#{a @AddPost.addSearchPost()}New Search Post#{/a}</div>
 		<div class="topLink">#{a @AddPost.addOfferPost()}New Offer Post#{/a}</div>
 		<div class="topLink">#{a @AddPost.addUploadPost()}New Upload Post#{/a}</div>
