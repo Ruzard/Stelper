@@ -2,15 +2,11 @@
 <div>
 	<h1><strong>${user.username}</strong>, welcome to Your Profile!</h1>
 
-#{editPersonalInfo user/}
+#{personalInfo user/}
 
 	<h3>Created posts by you:</h3>
-#{list items:createdPosts, as:'cPost'}
-	#{viewPost cPost/}
-#{/list}
-	<h3>Participating in:</h3>
-#{list items:participatedPosts, as:'pPost'}
-	#{viewPost pPost/}
+#{list items:createdPosts, as:'posts'}
+	#{viewPost posts/}
 #{/list}
 
 
