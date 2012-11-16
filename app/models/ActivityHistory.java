@@ -1,11 +1,14 @@
 package models;
 
-import java.util.*;
-
-import javax.persistence.*;
-import javax.persistence.Entity;
 import org.hibernate.annotations.*;
 import play.db.jpa.Model;
+
+import javax.persistence.CollectionTable;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import java.util.Date;
+import java.util.List;
 
 @Entity
 public class ActivityHistory extends Model {

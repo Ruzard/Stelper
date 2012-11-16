@@ -15,18 +15,29 @@
 <body>
 <div id="body">
 	<div id="header">
-		<div id="logo">
-			<span class="logoSpan">#{a @Stelper.stelper()}Stelper#{/a}</span>
-		</div>
-		<div id="login">Hello, ${user.username}, want to #{a @Secure.logout()}Logout?#{/a}<br>#{a @Profile.index()}
-			Profile#{/a}
-		</div>
-		<ul>
 
-		</ul>
-		<div class="topLink">#{a @AddPost.addSearchPost()}New Search Post#{/a}</div>
-		<div class="topLink">#{a @AddPost.addOfferPost()}New Offer Post#{/a}</div>
-		<div class="topLink">#{a @AddPost.addUploadPost()}New Upload Post#{/a}</div>
+		<div id="login">
+			Logged in as <strong>${user.username}</strong><br>
+			<ul class="nav nav-pills nav-stacked">
+				<li>
+				#{a @Secure.logout()}Logout?#{/a}
+				</li>
+				<li>
+				#{a @Profile.index()}Profile#{/a}
+				</li>
+			</ul>
+		</div>
+		<div class="topLinks">
+			<ul class="nav nav-pills">
+				<li>#{a @Stelper.stelper()}Stelper#{/a}</li>
+				<li>#{a @AddPost.addSearchPost()}New Search Post#{/a}</li>
+				<li>#{a @AddPost.addOfferPost()}New Offer Post#{/a}</li>
+				<li>#{a @AddPost.addUploadPost()}New Upload Post#{/a}</li>
+			</ul>
+		</div>
+	*{<div class="topLink"></div>}*
+	*{<div class="topLink"></div>}*
+	*{<div class="topLink"></div>}*
 	</div>
 	<div id="mainContent">#{doLayout /}</div>
 	<div id="footer">FOOTER GOES HERE</div>

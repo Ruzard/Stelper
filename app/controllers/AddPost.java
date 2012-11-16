@@ -6,17 +6,15 @@ import models.User;
 import models.enums.PostType;
 import models.exceptions.AccessViolationException;
 import models.exceptions.DataValidationException;
+import play.data.validation.Valid;
 import play.mvc.Before;
 import play.mvc.Controller;
 import play.mvc.With;
 import services.PostService;
 
 /**
- * Created with IntelliJ IDEA.
- * User: Mire1lle
- * Date: 13.10.12
- * Time: 19:31
- * To change this template use File | Settings | File Templates.
+ * Created with IntelliJ IDEA. User: Mire1lle Date: 13.10.12 Time: 19:31 To
+ * change this template use File | Settings | File Templates.
  */
 @With(Secure.class)
 public class AddPost extends Controller {
@@ -41,16 +39,35 @@ public class AddPost extends Controller {
 		render();
 	}
 
-	public static void handleSubmit(LangPost langPost, PostType postType) throws AccessViolationException, DataValidationException {
+	public static void handleSubmit(@Valid LangPost langPost, PostType postType) {
+		if (validation.hasErrors()) {
+			switch (postType) {
+			case OFFER:
+				addOfferPost();
+				break;
+			case SEARCH:
+				addSearchPost();
+				break;
+			case UPLOAD:
+				addUploadPost();
+				break;
+			}
+		}
 		UniversalPost unPost = new UniversalPost();
 		langPost.parentPost = unPost;
 		unPost.addLangPost(langPost);
 		unPost.type = postType;
 		User author = renderArgs.get("user", User.class);
-		if (PostService.createPost(unPost, author)) {
-			System.out.println("success");
-		} else {
-			System.out.println("fail");
+		try {
+			if (PostService.createPost(unPost, author)) {
+				System.out.println("success");
+			} else {
+				System.out.println("fail");
+			}
+		} catch (AccessViolationException e) {
+
+		} catch (DataValidationException e) {
+
 		}
 
 		Stelper.stelper();

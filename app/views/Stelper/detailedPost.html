@@ -1,32 +1,55 @@
 #{extends 'stelper.html'/}
 <div>
-    <div style="border: solid thin black;">
-        <span>Posted At : ${post.postedAt.format("dd.MM.yyyy,HH:mm:ss")}</span>
-        <span>${post.type}</span>
-        #{list items:post.posts , as:'langPost'}
-        <h3>${langPost.title}</h3>
+#{ifErrors }
+	<div class="alert alert-error">
+		<ul>
+			#{list errors}
+				<li>#{error /}</li>
+			#{/list}
+		</ul>
+	</div>
+#{/ifErrors}
 
-        <p>${langPost.body}</p>
-        <br>
+	<div>
+	<div class="post well well-large">
+		<span>Posted At : ${post.postedAt.format("dd.MM HH:mm")}</span>
+		<span style="visibility: hidden;">${post.type}</span>
+	#{list items:post.posts , as:'langPost'}
+		<span class="author">by ${post.author.username}</span>
 
-        <div id="commentTrees">
-            <h4>Comments</h4>
-            #{list langPost.commentTrees, as:'commentTree'}
-            <div id="comments" style="border: solid thin black;">
-                #{list commentTree.comments ,as:'comment'}
-                <div class="comment">
-                    <span>${comment.postedAt.format("dd.MM HH:mm")}</span>
+		<h3>${langPost.title}</h3>
 
-                    <p>
-                        ${comment.body}
-                    </p>
-                    <span>by ${comment.author.username}</span>
-                </div>
-                #{/list}
-            </div>
-            #{/list}
-        </div>
-        #{/list}
-    </div>
-    <div> #{addComment /}</div>
+		<p>${langPost.body}</p>
+		<br>
+	</div>
+		<div id="commentTrees">
+			<h4>Comments</h4>
+			#{list langPost.commentTrees, as:'commentTree'}
+				<div class="commentTree well well-small">
+					#{list commentTree.comments ,as:'comment'}
+						<div class="comment">
+							<span>${comment.postedAt.format("dd.MM HH:mm")}</span>
+
+							<p>
+							${comment.body}
+							</p>
+							<span class="author">by ${comment.author.username}</span>
+						</div>
+					#{/list}
+					<span data-id="${commentTree.id}" class="reply label label-info">Reply</span>
+				</div>
+				<div id="${commentTree.id}" class="hidden commentReply">#{addSubComment commentTree.id/}</div>
+			#{/list}
+		</div>
+	#{/list}
+	</div>
+	<div> #{addCommentTree /}</div>
 </div>
+<script type="text/javascript">
+	$(document).ready(function () {
+		$('span.reply.label.label-info').on('click', function () {
+			var divId = $(this).data('id');
+			$('div#' + divId).slideToggle();
+		});
+	});
+</script>

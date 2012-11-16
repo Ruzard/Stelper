@@ -3,6 +3,7 @@ package controllers;
 import java.util.List;
 
 import models.Comment;
+import models.CommentTree;
 import models.LangPost;
 import models.UniversalPost;
 import models.User;
@@ -15,11 +16,8 @@ import play.mvc.With;
 import services.PostService;
 
 /**
- * Created with IntelliJ IDEA.
- * User: viru
- * Date: 13.10.12
- * Time: 20:37
- * To change this template use File | Settings | File Templates.
+ * Created with IntelliJ IDEA. User: viru Date: 13.10.12 Time: 20:37 To change
+ * this template use File | Settings | File Templates.
  */
 @With(Secure.class)
 public class Stelper extends Controller {
@@ -28,6 +26,7 @@ public class Stelper extends Controller {
 
 	@Before
 	static void setConnectedUser() {
+
 		if (Security.isConnected()) {
 			user = User.find("byUsername", Security.connected()).first();
 			if (user != null)
@@ -50,7 +49,7 @@ public class Stelper extends Controller {
 		render();
 	}
 
-	public static void saveComment(@Valid Comment comment) {
+	public static void saveCommentTree(@Valid Comment comment) {
 		Long postId = Long.parseLong(session.get("postId"));
 		if (validation.hasErrors()) {
 			detailedPost(postId);
@@ -61,11 +60,25 @@ public class Stelper extends Controller {
 		try {
 			PostService.addPostComment(user, langPost, comment);
 		} catch (AccessViolationException e) {
-			e.printStackTrace();
+			error(e.getMessage());
 		} catch (PostException e) {
-			e.printStackTrace();
+			error(e.getMessage());
 		}
 
+		detailedPost(postId);
+	}
+
+	public static void saveSubComment(Long commentTreeId, Comment comment) {
+		// session.remove("exception");
+		Long postId = Long.parseLong(session.get("postId"));
+		CommentTree commentTree = CommentTree.findById(commentTreeId);
+		try {
+			PostService.addSubComment(commentTree, comment, user);
+		} catch (AccessViolationException e) {
+			error(e.getMessage());
+		} catch (PostException e) {
+			error(e.getMessage());
+		}
 		detailedPost(postId);
 	}
 }

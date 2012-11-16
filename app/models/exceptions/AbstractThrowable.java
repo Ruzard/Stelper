@@ -11,4 +11,8 @@ public abstract class AbstractThrowable extends Throwable {
 	public String toString() {
 		return super.toString() + " " + message;
 	}
+
+	public String getMessage() {
+		return message;
+	}
 }
