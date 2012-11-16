@@ -34,4 +34,14 @@ public class UserRatingTests extends UnitTest {
 		assertEquals("User post rating should be changed", baseValue + 1, universalPost.author.postRating.positive);
 	}
 
+	@Test
+	public void checkUserRatingNegativeChanges() {
+		universalPost = UniversalPost.find("byType", PostType.UPLOAD).first();
+		User user = User.find("byStatus", UserStatus.ACTIVE).first();
+
+		int baseValue = universalPost.author.postRating.negative;
+		PostService.changeRating(universalPost, user, RatingType.NEGATIVE);
+		assertEquals("User post rating should be changed", baseValue + 1, universalPost.author.postRating.negative);
+	}
+
 }
