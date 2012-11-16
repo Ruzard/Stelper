@@ -30,6 +30,7 @@ public class PostRatingTests extends UnitTest {
 		Fixtures.loadModels("data.yml");
 
 		changeInitiator = User.find("byUsername", "Commenter").first();
+
 		//stored post
 		universalPost = UniversalPost.find("byType", PostType.UPLOAD).first();
 	}

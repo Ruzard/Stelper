@@ -14,6 +14,7 @@ import models.exceptions.AccessViolationException;
 import models.exceptions.DataValidationException;
 import models.exceptions.PostException;
 import utils.AccessValidation;
+import utils.PostUtils;
 
 import static models.enums.ResponseStatus.OK;
 import static models.enums.ResponseStatus.RATING_ALREADY_CHANGED;
@@ -27,34 +28,11 @@ public class PostService {
 		if (post.posts.isEmpty()) {
 			throw new DataValidationException(post + " missing translated posts");
 		}
-		checkTags(post);
+		PostUtils.checkTags(post);
 
 
 		post.author = author;
 		return post.validateAndSave();
-	}
-
-	private static void checkTags(UniversalPost post) throws DataValidationException {
-		boolean tagsValid = true;
-		for (LangPost langPost : post.posts) {
-			if (langPost.tags == null) {
-				tagsValid = false;
-				break;
-			}
-			if (langPost.tags.size() == 0) {
-				tagsValid = false;
-				break;
-			}
-
-			for (String tag : langPost.tags) {
-				if (tag.isEmpty()) {
-					tagsValid = false;
-					break;
-				}
-			}
-		}
-		if (!tagsValid)
-			throw new DataValidationException("Tags are empty");
 	}
 
 	public static ResponseStatus changeRating(UniversalPost post, User initiator, RatingType changeType) {

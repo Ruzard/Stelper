@@ -33,6 +33,7 @@ public class AdvancedCommentTests extends UnitTest {
 		commentTree = CommentTree.find("byParentPost", langPost).first();
 	}
 
+
 	@Test
 	public void basicAddSubComment() throws AccessViolationException, PostException {
 		long initialCommentCount = Comment.count();
