@@ -1,12 +1,27 @@
 package models;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
-import javax.persistence.*;
-
-import models.enums.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import models.enums.Country;
+import models.enums.EducationLevel;
+import models.enums.Language;
+import models.enums.Role;
+import models.enums.UserStatus;
 import play.data.binding.As;
-import play.data.validation.*;
+import play.data.validation.Email;
+import play.data.validation.Required;
+import play.data.validation.Unique;
 import play.db.jpa.Model;
 
 @Entity
@@ -58,16 +73,10 @@ public class User extends Model {
 	public EducationLevel educationLevel;
 
 	@OneToOne(cascade = CascadeType.ALL)
-	public Rating userRating;
-
-	@OneToOne(cascade = CascadeType.ALL)
 	public Rating postRating;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "author")
 	public List<PortfolioObject> portfolio;
-
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "receiver")
-	public List<Feedback> feedbacks;
 
 	@OneToOne(cascade = CascadeType.ALL)
 	public ReportState reportState;
@@ -76,10 +85,8 @@ public class User extends Model {
 		history = new ActivityHistory();
 
 		postRating = new Rating();
-		userRating = new Rating();
 
 		portfolio = new ArrayList<PortfolioObject>();
-		feedbacks = new ArrayList<Feedback>();
 
 		reportState = new ReportState();
 
