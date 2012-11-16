@@ -8,6 +8,7 @@ GET     /register                               Registration.index
 GET     /stelper                                Stelper.stelper
 GET     /newpost/search                         AddPost.addSearchPost
 GET		/addcomment								AddComment.addComment
+GET		/profile								Profile.index
 
 # Ignore favicon requests
 GET     /favicon.ico                            404

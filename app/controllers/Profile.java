@@ -21,21 +21,10 @@ public class Profile extends Controller {
 	public static void index() {
 		User user = User.find("byUsername", session.get("username")).first();
 		List<UniversalPost> createdPosts = UniversalPost.find("byAuthor", user).fetch();
-//		List<UniversalPost> participatedPosts = DealAgent.find("byHelper", user).fetch();
 
 		renderArgs.put("user", user);
 		renderArgs.put("createdPosts", createdPosts);
 		render();
 	}
 
-	public static void edit(@Valid User user) {
-//		if (validation.hasErrors()) {
-//			index();
-//		}
-		if (UserService.updateInfo(user)) {
-			index();
-		} else {
-			render("errors/500.html");
-		}
-	}
 }
