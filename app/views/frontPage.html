@@ -4,25 +4,38 @@
 <head>
 	<title>#{get 'title' /}</title>
 	<meta charset="${_response_encoding}">
-	<link rel="stylesheet" media="screen" href="@{'/public/stylesheets/main.css'}">
+#{stylesheet 'bootstrap.css'/}
+#{stylesheet 'main.css'/}
+#{script 'jquery.js'/}
+#{script 'bootstrap.min.js'/}
 #{get 'moreStyles' /}
 	<link rel="shortcut icon" type="image/png" href="@{'/public/images/favicon.png'}">
-	<script src="@{'/public/javascripts/jquery.js'}" type="text/javascript"
-			charset="${_response_encoding}"></script>
 #{get 'moreScripts' /}
 </head>
 <body>
 <div id="body">
 	<div id="header">
-		<div id="logo">
-			<span class="logoSpan">Stelper</span>
+
+		<div id="login">
+			<ul class="nav nav-pills nav-stacked">
+				<li>
+				#{a @Secure.login()}Login#{/a}
+				</li>
+				<li>
+				#{a @Registration.index()}Register#{/a}
+				</li>
+			</ul>
 		</div>
-		<div id="login">#{loginRegisterPanel /}</div>
-		<div class="topLink" style="margin-left: 100px;"><a href="/help/help">Get Help</a></div>
-		<div class="topLink">Offer Help</div>
-		<div class="topLink">Study Material</div>
+		<div class="topLinks">
+			<ul class="nav nav-pills">
+				<li>#{a @GuestPage.index()}Some link 1#{/a}</li>
+				<li>#{a @GuestPage.index()}Some link 2#{/a}</li>
+				<li>#{a @GuestPage.index()}Some link 3#{/a}</li>
+				<li>#{a @GuestPage.index()}Some link 4#{/a}</li>
+			</ul>
+		</div>
 	</div>
-#{doLayout /}
+	<div id="mainContent">#{doLayout /}</div>
 	<div id="footer">FOOTER GOES HERE</div>
 </div>
 </body>

@@ -2,31 +2,42 @@
 	<legend>User informations</legend>
 	<div class="field">
 		<input type="hidden" value="${_arg.username}">
-
+	#{if _arg.firstName}
 		<div class="field">
 			<strong>First name : </strong>
 		${_arg.firstName}
 		</div>
+	#{/if}
+	#{if _arg.lastName}
 		<div class="field">
 			<strong>Last name : </strong>
 		${_arg.lastName}
 		</div>
-		<div class="field">
-			<strong>Birthdate : </strong>
-		${_arg.birthdate.format('dd MMM yyyy')}
-		</div>
+	#{/if}
+	#{if _arg.birthdate}
+	<div class="field">
+		<strong>Birthdate : </strong>
+	${_arg.birthdate.format('dd MMM yyyy')}
+	#{/if}
+	</div>
+	#{if _arg.about}
 		<div class="field">
 			<strong>About yourself : </strong> <br>
 		${_arg.about}
 		</div>
+	#{/if}
+	#{if _arg.country}
 		<div class="field">
 			<strong>Country : </strong>
 		${_arg.country}
 		</div>
+	#{/if}
+	#{if _arg.city}
 		<div class="field">
 			<strong>City : </strong>
 		${_arg.city}
 		</div>
+	#{/if}
 	</div>
 </fieldset>
 </fieldset>

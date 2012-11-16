@@ -1,6 +1,6 @@
 <div class="post well well-large">
-	<span>Posted At : ${_arg.postedAt.format("dd.MM.yyyy,HH:mm:ss")}</span>
-	<span>${_arg.type}</span>
+	<span>Posted At :<span class="label"> ${_arg.postedAt.format("dd.MM.yyyy,HH:mm:ss")}</span></span>
+	<span class="hidden">${_arg.type}</span>
 	<span><strong>by ${_arg.author.username}</strong></span>
 #{list items:_arg.posts , as:'langPost'}
 	#{a @Stelper.detailedPost(_arg.id)}
