@@ -17,7 +17,6 @@ import utils.AccessValidation;
 
 import static models.enums.ResponseStatus.OK;
 import static models.enums.ResponseStatus.RATING_ALREADY_CHANGED;
-import static models.enums.ResponseStatus.RATING_EXCEPTION;
 import static models.enums.ResponseStatus.RATING_NEUTRAL_EXCEPTION;
 
 public class PostService {
@@ -68,16 +67,14 @@ public class PostService {
 			return RATING_ALREADY_CHANGED;
 		}
 
-		if (post.type != PostType.UPLOAD) {
-			return RATING_EXCEPTION;
-		}
-
 		switch (changeType) {
 			case POSITIVE:
 				post.rating.positive++;
+				post.author.postRating.positive++;
 				break;
 			case NEGATIVE:
 				post.rating.negative++;
+				post.author.postRating.negative++;
 				break;
 			case NEUTRAL:
 				return RATING_NEUTRAL_EXCEPTION;
@@ -110,7 +107,7 @@ public class PostService {
 
 
 	public static void addSubComment(CommentTree commentTree, Comment comment,
-	                                 User author) throws AccessViolationException, PostException {
+			User author) throws AccessViolationException, PostException {
 		checkAccess(author, "You are not allowed to add sub comment");
 		UniversalPost parentPost = commentTree.parentPost.parentPost;
 		if (parentPost.type != PostType.SEARCH) {

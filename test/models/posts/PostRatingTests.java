@@ -1,12 +1,21 @@
 package models.posts;
 
-import models.*;
-import models.enums.*;
-import org.junit.*;
-import play.test.*;
+import models.Rating;
+import models.UniversalPost;
+import models.User;
+import models.enums.PostType;
+import models.enums.RatingType;
+import models.enums.ResponseStatus;
+import models.enums.UserStatus;
+import org.junit.Before;
+import org.junit.Test;
+import play.test.Fixtures;
+import play.test.UnitTest;
 import services.PostService;
 
-import static models.enums.RatingType.*;
+import static models.enums.RatingType.NEGATIVE;
+import static models.enums.RatingType.NEUTRAL;
+import static models.enums.RatingType.POSITIVE;
 import static models.enums.ResponseStatus.OK;
 import static models.enums.ResponseStatus.RATING_ALREADY_CHANGED;
 
@@ -78,7 +87,7 @@ public class PostRatingTests extends UnitTest {
 
 		assertTrue("Rating should be null initially", isRatingEqual(0, 0, 0, universalPost.rating));
 		PostService.changeRating(universalPost, user, RatingType.POSITIVE);
-		assertTrue("Rating should not be changed", isRatingEqual(0, 0, 0, universalPost.rating));
+		assertTrue("Rating should be changed", isRatingEqual(1, 0, 0, universalPost.rating));
 	}
 
 	private boolean isRatingEqual(int positive, int neutral, int negative, Rating rating) {
