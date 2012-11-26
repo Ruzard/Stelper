@@ -23,20 +23,22 @@
 				#{a @Secure.logout()}Logout?#{/a}
 				</li>
 				<li>
-				#{a @Profile.index()}Profile#{/a}
+				#{a @Users.profile()}Profile#{/a}
 				</li>
 			</ul>
 		</div>
 		<div class="topLinks">
 			<ul class="nav nav-pills">
-				<li>#{a @Stelper.stelper()}Stelper#{/a}</li>
-				<li>#{a @AddPost.addSearchPost()}New Search Post#{/a}</li>
-				<li>#{a @AddPost.addOfferPost()}New Offer Post#{/a}</li>
-				<li>#{a @AddPost.addUploadPost()}New Upload Post#{/a}</li>
+				<li>#{a @Main.main()}Stelper#{/a}</li>
+				<li>#{a @Posts.createPost(models.enums.PostType.SEARCH)}New Search Post#{/a}</li>
+				<li>#{a @Posts.createPost(models.enums.PostType.OFFER)}New Offer Post#{/a}</li>
+				<li>#{a @Posts.createPost(models.enums.PostType.UPLOAD)}New Upload Post#{/a}</li>
 			</ul>
 		</div>
 	</div>
-	<div id="mainContent">#{doLayout /}</div>
+	<div id="mainContent">
+	#{doLayout /}
+	</div>
 	<div id="footer">FOOTER GOES HERE</div>
 </div>
 </body>

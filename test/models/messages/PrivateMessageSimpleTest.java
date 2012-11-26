@@ -96,4 +96,12 @@ public class PrivateMessageSimpleTest extends UnitTest {
 		assertTrue("Dialogs should have been created", dialogList.size() == (initialDialogCount + 2));
 	}
 
+	public void lastMessageTest() throws PrivateMessageException {
+		MessageService.sendMessage(first, second, "request1");
+		MessageService.sendMessage(second, first, "response");
+		MessageService.sendMessage(first, second, "request2");
+
+		assertTrue(MessageService.getDialogList(first).get(0).lastMessage.message.equals("request2"));
+	}
+
 }

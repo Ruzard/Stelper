@@ -14,14 +14,14 @@ public class ApplicationTest extends FunctionalTest {
 
 	@Test
 	public void testRegistrationPageWorks() {
-		Response response = GET("/register");
+		Response response = GET("/registrationSubmit");
 		assertIsOk(response);
 		assertContentMatch("First name", response);
 	}
 
 	//	@Test
 	public void testLoginPageWorks() {
-		Response response = GET("/stelper");
+		Response response = GET("/main");
 		assertIsOk(response);
 
 

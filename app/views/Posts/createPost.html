@@ -1,5 +1,6 @@
+#{extends 'main.html'/}
 <h1>Add new ${_arg} post</h1>
-#{form @AddPost.handleSubmit()}
+#{form @Posts.createPostSubmit()}
 <fieldset>
 	<legend>Add new post</legend>
 	<div class="field">

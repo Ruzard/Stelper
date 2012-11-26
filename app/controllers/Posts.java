@@ -1,5 +1,7 @@
 package controllers;
 
+import java.util.List;
+
 import models.LangPost;
 import models.UniversalPost;
 import models.User;
@@ -9,49 +11,46 @@ import models.exceptions.DataValidationException;
 import play.data.validation.Valid;
 import play.mvc.Before;
 import play.mvc.Controller;
-import play.mvc.With;
 import services.PostService;
 
 /**
- * Created with IntelliJ IDEA. User: Mire1lle Date: 13.10.12 Time: 19:31 To
- * change this template use File | Settings | File Templates.
+ * Created with IntelliJ IDEA. User: ivanma Date: 26.11.12 Time: 18:49 To change
+ * this template use File | Settings | File Templates.
  */
-@With(Secure.class)
-public class AddPost extends Controller {
+public class Posts extends Controller {
+	private static User user;
+
 	@Before
 	static void setConnectedUser() {
 		if (Security.isConnected()) {
-			User user = User.find("byUsername", Security.connected()).first();
+			user = User.find("byUsername", Security.connected()).first();
 			if (user != null)
 				renderArgs.put("user", user);
 		}
 	}
 
-	public static void addSearchPost() {
+	public static void frontPosts() {
+		List<UniversalPost> posts = PostService.getVisiblePosts();
+		renderArgs.put("posts", posts);
+		render(posts);
+	}
+
+	public static void detailedPost(Long id) {
+		UniversalPost post = UniversalPost.findById(id);
+		if (post != null) {
+			renderArgs.put("post", post);
+			session.put("postId", id);
+		}
 		render();
 	}
 
-	public static void addOfferPost() {
-		render();
+	public static void createPost(PostType postType) {
+		render(postType);
 	}
 
-	public static void addUploadPost() {
-		render();
-	}
-
-	public static void handleSubmit(@Valid LangPost langPost, PostType postType) {
+	public static void createPostSubmit(@Valid LangPost langPost, PostType postType) {
 		if (validation.hasErrors()) {
-			switch (postType) {
-			case OFFER:
-				addOfferPost();
-				break;
-			case SEARCH:
-				addSearchPost();
-				break;
-			case UPLOAD:
-				addUploadPost();
-				break;
-			}
+			createPost(postType);
 		}
 		UniversalPost unPost = new UniversalPost();
 		langPost.parentPost = unPost;
@@ -70,6 +69,6 @@ public class AddPost extends Controller {
 
 		}
 
-		Stelper.stelper();
+		Main.main();
 	}
 }

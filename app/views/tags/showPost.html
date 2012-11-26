@@ -1,0 +1,15 @@
+<div>
+	<div class="post well well-large">
+		<span>Posted At : <span class="label"> ${_arg.postedAt.format("dd.MM HH:mm")}</span></span>
+		<span class="hidden">${_arg.type}</span>
+	*{#{list items:post.posts , as:'langPost'}}*             <!--TODO implement langPost support-->
+	#{set langPost:_arg.posts.get(0)/}
+		<span class="author label label-info">by ${_arg.author.username}</span>
+
+	#{a @Posts.detailedPost(_arg.id)}<h3>${langPost.title}</h3>  #{/a}
+
+		<p><span>${langPost.body}</span></p>
+		<br>
+	</div>
+*{#{/list}}*
+</div>
