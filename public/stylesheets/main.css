@@ -123,6 +123,7 @@ input[type=text], input[type=password] {
 }
 
 .author {
+    cursor: pointer;
     position: relative;
 }
 
@@ -152,7 +153,8 @@ input[type=text], input[type=password] {
 .rating {
     cursor: pointer;
 }
-a.rating{
+
+a.rating {
     color: #ffffff;
     text-decoration: none;
 }
@@ -160,4 +162,18 @@ a.rating{
 a.rating:hover {
     color: #f5f5f5;
     text-decoration: none;
+}
+
+.left-navigation {
+    position: fixed;
+    left: 0;
+    padding: 3%
+}
+
+.a-nav {
+
+}
+
+.modal {
+    width: 350px;
 }

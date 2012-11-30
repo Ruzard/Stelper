@@ -1,10 +1,10 @@
 #{extends 'main.html'/}
-<h1>Add new ${_arg} post</h1>
+<h1>Add new ${postType} post</h1>
 #{form @Posts.createPostSubmit()}
 <fieldset>
 	<legend>Add new post</legend>
 	<div class="field">
-		<input type="hidden" name="postType" value="${_arg}">
+		<input type="hidden" name="postType" value="${postType}">
 
 		<div class="field">
 			<label for="language">Language : </label> <br>

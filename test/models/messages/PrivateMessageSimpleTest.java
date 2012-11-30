@@ -2,7 +2,7 @@ package models.messages;
 
 import java.util.List;
 
-import models.PrivateDialog;
+import models.PrivateConversation;
 import models.PrivateMessage;
 import models.User;
 import models.exceptions.PrivateMessageException;
@@ -29,11 +29,11 @@ public class PrivateMessageSimpleTest extends UnitTest {
 	@Test
 	public void sendMessage() throws PrivateMessageException {
 		long initialMessageCount = PrivateMessage.count();
-		long initialDialogCount = PrivateDialog.count();
+		long initialDialogCount = PrivateConversation.count();
 
 		MessageService.sendMessage(first, second, "Test message");
 
-		assertFalse("Dialog should have been created", initialDialogCount == PrivateDialog.count());
+		assertFalse("Dialog should have been created", initialDialogCount == PrivateConversation.count());
 		assertFalse("Message should have been created", initialMessageCount == PrivateMessage.count());
 	}
 
@@ -41,18 +41,18 @@ public class PrivateMessageSimpleTest extends UnitTest {
 	public void singletonDialogOneUser() throws PrivateMessageException {
 		MessageService.sendMessage(first, second, "Test message");
 
-		long initialDialogCount = PrivateDialog.count();
+		long initialDialogCount = PrivateConversation.count();
 		MessageService.sendMessage(first, second, "Test message 2");
-		assertTrue("Dialog should have been created", initialDialogCount == PrivateDialog.count());
+		assertTrue("Dialog should have been created", initialDialogCount == PrivateConversation.count());
 	}
 
 	@Test
 	public void singletonDialogBothUsers() throws PrivateMessageException {
 		MessageService.sendMessage(first, second, "Test message");
 
-		long initialDialogCount = PrivateDialog.count();
+		long initialDialogCount = PrivateConversation.count();
 		MessageService.sendMessage(second, first, "Test message 2");
-		assertTrue("Dialog should not have been created", initialDialogCount == PrivateDialog.count());
+		assertTrue("Dialog should not have been created", initialDialogCount == PrivateConversation.count());
 	}
 
 	@Test
@@ -66,7 +66,7 @@ public class PrivateMessageSimpleTest extends UnitTest {
 	@Test
 	public void multipleDialogTest() throws PrivateMessageException {
 		long initialMessageCount = PrivateMessage.count();
-		long initialDialogCount = PrivateDialog.count();
+		long initialDialogCount = PrivateConversation.count();
 
 		User third = User.find("byUsername", "John").first();
 
@@ -74,7 +74,7 @@ public class PrivateMessageSimpleTest extends UnitTest {
 		MessageService.sendMessage(first, third, "Test message");
 		MessageService.sendMessage(third, second, "Test message");
 
-		assertTrue("Dialogs should have been created", (initialDialogCount + 3) == PrivateDialog.count());
+		assertTrue("Dialogs should have been created", (initialDialogCount + 3) == PrivateConversation.count());
 		assertTrue("Messages should have been created", (initialMessageCount + 3) == PrivateMessage.count());
 	}
 
@@ -86,14 +86,14 @@ public class PrivateMessageSimpleTest extends UnitTest {
 
 	public void fetchDialogs() throws PrivateMessageException {
 		User third = User.find("byUsername", "John").first();
-		long initialDialogCount = PrivateDialog.count();
+		long initialDialogCount = PrivateConversation.count();
 
 		MessageService.sendMessage(first, second, "Test message");
 		MessageService.sendMessage(second, first, "Test message");
 		MessageService.sendMessage(first, third, "Test message");
 
-		List<PrivateDialog> dialogList = MessageService.getDialogList(first);
-		assertTrue("Dialogs should have been created", dialogList.size() == (initialDialogCount + 2));
+		List<PrivateConversation> conversationList = MessageService.getPrivateConversations(first);
+		assertTrue("Dialogs should have been created", conversationList.size() == (initialDialogCount + 2));
 	}
 
 	public void lastMessageTest() throws PrivateMessageException {
@@ -101,7 +101,7 @@ public class PrivateMessageSimpleTest extends UnitTest {
 		MessageService.sendMessage(second, first, "response");
 		MessageService.sendMessage(first, second, "request2");
 
-		assertTrue(MessageService.getDialogList(first).get(0).lastMessage.message.equals("request2"));
+		assertTrue(MessageService.getPrivateConversations(first).get(0).lastMessage.message.equals("request2"));
 	}
 
 }

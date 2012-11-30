@@ -21,6 +21,7 @@ public class Main extends Controller {
 			user = User.find("byUsername", Security.connected()).first();
 			if (user != null)
 				renderArgs.put("user", user);
+			session.put("currentUser", user.username);
 		}
 	}
 

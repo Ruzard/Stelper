@@ -1,0 +1,22 @@
+*{<div class="modal hide fade">}*
+<div class="modal-header">
+	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	<h3>Send message to <strong>${_arg.author.username}</strong></h3>
+</div>
+<div class="modal-body">
+#{form @Conversations.sendMessage()}
+	<input type="hidden" name="receiver" value="${_arg.author.username}">
+
+	<div class="new-private-message">
+		<TEXTAREA style="resize: none" id="message" name="message"
+		*{COLS="40" ROWS="4"}*
+				  value="${params['message']}">
+		</TEXTAREA>
+	</div>
+#{/form}
+</div>
+<div class="modal-footer">
+	<a href="#" class="btn">Close</a>
+	<a href="#" class="btn btn-primary">Send</a>
+</div>
+*{</div>}*

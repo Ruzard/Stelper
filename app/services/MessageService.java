@@ -2,7 +2,7 @@ package services;
 
 import java.util.List;
 
-import models.PrivateDialog;
+import models.PrivateConversation;
 import models.PrivateMessage;
 import models.User;
 import models.enums.ExceptionType;
@@ -23,19 +23,20 @@ public class MessageService {
 			throw new PrivateMessageException(ExceptionType.USER_NOT_FOUND, errorMessage);
 		}
 
-		PrivateDialog dialog = PrivateDialog.find("byFirstUserAndSecondUser", author, receiver).first();
-		if (dialog == null) {
-			dialog = PrivateDialog.find("byFirstUserAndSecondUser", receiver, author).first();
-			if (dialog == null) {
-				dialog = new PrivateDialog(author, receiver);
+		PrivateConversation conversation = PrivateConversation.find("byFirstUserAndSecondUser", author, receiver)
+				.first();
+		if (conversation == null) {
+			conversation = PrivateConversation.find("byFirstUserAndSecondUser", receiver, author).first();
+			if (conversation == null) {
+				conversation = new PrivateConversation(author, receiver);
 			}
 		}
-		return dialog.addMessage(new PrivateMessage(author, message));
+		return conversation.addMessage(new PrivateMessage(author, message));
 	}
 
-	public static List<PrivateDialog> getDialogList(User user) {
-		List<PrivateDialog> firstPart = PrivateDialog.find("byFirstUser", user).fetch();
-		List<PrivateDialog> secondPart = PrivateDialog.find("bySecondUser", user).fetch();
+	public static List<PrivateConversation> getPrivateConversations(User user) {
+		List<PrivateConversation> firstPart = PrivateConversation.find("byFirstUser", user).fetch();
+		List<PrivateConversation> secondPart = PrivateConversation.find("bySecondUser", user).fetch();
 		firstPart.addAll(secondPart);
 		return firstPart;
 	}

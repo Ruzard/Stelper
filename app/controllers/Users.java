@@ -2,11 +2,13 @@ package controllers;
 
 import java.util.List;
 
+import models.PrivateConversation;
 import models.UniversalPost;
 import models.User;
 import play.data.validation.Valid;
 import play.mvc.Before;
 import play.mvc.Controller;
+import services.MessageService;
 import services.UserService;
 
 /**
@@ -27,7 +29,10 @@ public class Users extends Controller {
 
 	public static void profile() {
 		List<UniversalPost> createdPosts = UniversalPost.find("byAuthor", user).fetch();
+		List<PrivateConversation> conversations = MessageService.getPrivateConversations(user);
+
 		renderArgs.put("user", user);
+		renderArgs.put("conversations", conversations);
 		renderArgs.put("createdPosts", createdPosts);
 		render();
 	}

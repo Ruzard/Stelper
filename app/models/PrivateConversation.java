@@ -12,20 +12,20 @@ import javax.persistence.OneToOne;
 import play.db.jpa.Model;
 
 @Entity
-public class PrivateDialog extends Model {
+public class PrivateConversation extends Model {
 	@ManyToOne
 	public User firstUser;
 
 	@ManyToOne
 	public User secondUser;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "dialog")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "conversation")
 	public List<PrivateMessage> messages;
 
 	@OneToOne (cascade = CascadeType.ALL)
 	public PrivateMessage lastMessage;
 
-	public PrivateDialog(User firstUser, User secondUser) {
+	public PrivateConversation(User firstUser, User secondUser) {
 		this.firstUser = firstUser;
 		this.secondUser = secondUser;
 		messages = new LinkedList<PrivateMessage>();
