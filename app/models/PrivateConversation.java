@@ -22,7 +22,7 @@ public class PrivateConversation extends Model {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "conversation")
 	public List<PrivateMessage> messages;
 
-	@OneToOne (cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.ALL)
 	public PrivateMessage lastMessage;
 
 	public PrivateConversation(User firstUser, User secondUser) {
@@ -33,11 +33,12 @@ public class PrivateConversation extends Model {
 
 	public boolean addMessage(PrivateMessage message) {
 		messages.add(message);
+		message.conversation = this;
 		lastMessage = message;
 		return validateAndSave();
 	}
 
-	public User getCompanion(User currentUser) {
-		return currentUser.equals(firstUser) ? secondUser : firstUser;
+	public User getCompanion(String currentUser) {
+		return currentUser.equals(firstUser.username) ? secondUser : firstUser;
 	}
 }

@@ -1,5 +1,12 @@
 #{extends 'main.html'/}
 <div>
+#{if message!=null}
+	<div class="message-notification hidden">
+		<span style="padding: 5px">
+	${message}
+		</span>
+	</div>
+#{/if}
 #{list items:posts, as:'post'}
 	#{showPost post/}
 #{/list}
@@ -11,6 +18,22 @@
 //				$('div#' + id).();
 //				return false;
 //			});
+			$('a.btn-close').on('click', function () {
+				var id = $(this).parent().parent().attr('id');
+				$('div.modal#' + id).modal('hide');
+			});
+//			$('input.send').on('click', function () {
+//				window.test = $(this);
+//				return false;
+//			});
+			var mes = '${message}';
+			if (mes.length > 0) {
+				$('div.message-notification').fadeIn();
+				setTimeout(function () {
+					$('div.message-notification').fadeOut();
+				}, 2000);
+			}
 		});
 	</script>
 </div>
+

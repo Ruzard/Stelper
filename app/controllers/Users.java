@@ -3,6 +3,7 @@ package controllers;
 import java.util.List;
 
 import models.PrivateConversation;
+import models.PrivateMessage;
 import models.UniversalPost;
 import models.User;
 import play.data.validation.Valid;
@@ -30,7 +31,7 @@ public class Users extends Controller {
 	public static void profile() {
 		List<UniversalPost> createdPosts = UniversalPost.find("byAuthor", user).fetch();
 		List<PrivateConversation> conversations = MessageService.getPrivateConversations(user);
-
+		List<PrivateMessage> messages = PrivateMessage.findAll();
 		renderArgs.put("user", user);
 		renderArgs.put("conversations", conversations);
 		renderArgs.put("createdPosts", createdPosts);

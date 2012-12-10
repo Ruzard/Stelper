@@ -30,8 +30,14 @@ public class Posts extends Controller {
 	}
 
 	public static void frontPosts() {
+		String notification = session.get("notification");
+		if (notification != null) {
+			session.remove("notification");
+		}
+
 		List<UniversalPost> posts = PostService.getVisiblePosts();
 		renderArgs.put("posts", posts);
+		renderArgs.put("message", notification);
 		render(posts);
 	}
 

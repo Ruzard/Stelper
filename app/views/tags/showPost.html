@@ -11,13 +11,19 @@
 		#{autorSpan _arg/}
 		</span>
 
-	#{a @Posts.detailedPost(_arg.id)}<h3>${langPost.title}</h3>  #{/a}
+		<br>
+		<br>
+		<span class="title">
+		#{a @Posts.detailedPost(_arg.id)}${langPost.title}#{/a}
+		</span>
+		<br>
+		<br>
 
 		<p><span>${langPost.body}</span></p>
 		<br>
 	</div>
 	<div class="modal hide fad " id="${_arg.id}">
-	#{addPrivateMessage _arg/}
+	#{addPrivateMessage post:_arg/}
 	</div>
 *{#{/list}}*
 </div>

@@ -22,10 +22,15 @@ public class Conversations extends Controller {
 		}
 	}
 
-	public static void sendMessage(String reciever, String message) {
-		User receiverUser = User.find("byUsername", reciever).first();
+	public static void sendMessage(String receiver, String message) {
+		User receiverUser = User.find("byUsername", receiver).first();
 		try {
-			renderText(MessageService.sendMessage(user, receiverUser, message));
+			if (MessageService.sendMessage(user, receiverUser, message)) {
+				session.put("notification", "Message sent successfully");
+			} else {
+				session.put("notification", "Message sent failed");
+			}
+			// Posts.frontPosts();
 		} catch (PrivateMessageException e) {
 			e.printStackTrace();
 
