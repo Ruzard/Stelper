@@ -22,18 +22,23 @@
 				var id = $(this).parent().parent().attr('id');
 				$('div.modal#' + id).modal('hide');
 			});
-//			$('input.send').on('click', function () {
-//				window.test = $(this);
-//				return false;
-//			});
-			var mes = '${message}';
-			if (mes.length > 0) {
-				$('div.message-notification').fadeIn();
-				setTimeout(function () {
-					$('div.message-notification').fadeOut();
-				}, 2000);
-			}
-		});
+			$('input.send').on('click', function () {
+				var id = $(this).parent().parent().attr('id')
+				var message = $(this).parent().parent().find('textarea').val();
+				var receiver = $(this).parent().parent().find('h3').find('strong').text();
+				$.post('/conversations/sendmessage', {receiver:receiver, message:message}, function (response) {
+					$('#' + id).modal('hide');
+
+					if (response == 'true') {
+						alert('Message Sent!');
+					} else {
+						alert('Error!');
+					}
+				});
+				return false;
+			});
+		})
+		;
 	</script>
 </div>
 

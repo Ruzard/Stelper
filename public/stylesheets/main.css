@@ -193,3 +193,11 @@ a.rating:hover {
     left: 45%;
     background: cyan;
 }
+
+.conversation {
+    max-width: 500px;
+}
+
+.conversation.accordion-heading {
+    background: white;
+}

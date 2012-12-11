@@ -1,10 +1,12 @@
 package controllers;
 
+import models.PrivateMessage;
 import models.User;
 import models.exceptions.PrivateMessageException;
 import play.mvc.Before;
 import play.mvc.Controller;
 import services.MessageService;
+import utils.JsonHelper;
 
 /**
  * Created with IntelliJ IDEA. User: ivanma Date: 29.11.12 Time: 21:52 To change
@@ -25,15 +27,16 @@ public class Conversations extends Controller {
 	public static void sendMessage(String receiver, String message) {
 		User receiverUser = User.find("byUsername", receiver).first();
 		try {
-			if (MessageService.sendMessage(user, receiverUser, message)) {
-				session.put("notification", "Message sent successfully");
+			PrivateMessage privateMessage = MessageService.sendMessage(user, receiverUser, message);
+			if (privateMessage != null) {
+				renderJSON(JsonHelper.getPrivateMessageJson(privateMessage));
 			} else {
-				session.put("notification", "Message sent failed");
+				renderJSON(null);
 			}
-			// Posts.frontPosts();
+
 		} catch (PrivateMessageException e) {
 			e.printStackTrace();
-
+			error(e.getMessage());
 		}
 	}
 }

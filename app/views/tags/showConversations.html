@@ -1,7 +1,7 @@
-<div class="accordion" id="accordion">
+<div class="accordion conversation" id="accordion">
 #{list items:_conversations ,as:'conversation'}
 	<div class="accordion-group">
-		<div class="accordion-heading">
+		<div class="accordion-heading conversation">
 			<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion"
 			   href="#a${conversation.id}">
 				with ${conversation.getCompanion(_user.username).username}
@@ -34,7 +34,7 @@
 			var id = $(this).parent().parent().attr('id')
 			var message = $(this).parent().parent().find('textarea').val();
 			var receiver = $(this).parent().parent().find('h3').find('strong').text();
-			$.post('conversations/sendmessage', {receiver:receiver, message:message}, function () {
+			$.post('/conversations/sendmessage', {receiver:receiver, message:message}, function () {
 				$('#' + id).modal('hide');
 				window.location = '/profile#user-messages';
 			});

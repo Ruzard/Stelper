@@ -9,13 +9,13 @@ import models.enums.ExceptionType;
 import models.exceptions.PrivateMessageException;
 
 public class MessageService {
-	public static boolean sendMessage(User author, User receiver, String message) throws PrivateMessageException {
+	public static PrivateMessage sendMessage(User author, User receiver, String message) throws PrivateMessageException {
 		if (message == null || message.equals("")) {
-			return false;
+			return null;
 		}
 
 		if (receiver == null || author == null) {
-			return false;
+			return null;
 		}
 
 		if (User.findById(receiver.id) == null) {
@@ -31,7 +31,9 @@ public class MessageService {
 				conversation = new PrivateConversation(author, receiver);
 			}
 		}
-		return conversation.addMessage(new PrivateMessage(author, message));
+		PrivateMessage privateMessage = new PrivateMessage(author, message);
+		return conversation.addMessage(privateMessage) ? privateMessage : null;
+
 	}
 
 	public static List<PrivateConversation> getPrivateConversations(User user) {
