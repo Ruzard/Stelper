@@ -9,6 +9,8 @@
 #{script 'jquery.js'/}
 #{script 'bootstrap.min.js'/}
 #{get 'moreStyles' /}
+	<link href='http://fonts.googleapis.com/css?family=Libre+Baskerville&subset=latin,latin-ext' rel='stylesheet'
+		  type='text/css'>
 	<link rel="shortcut icon" type="image/png" href="@{'/public/images/favicon.png'}">
 #{get 'moreScripts' /}
 </head>
@@ -28,10 +30,9 @@
 		</div>
 		<div class="topLinks">
 			<ul class="nav nav-pills">
-				<li>#{a @GuestPage.guestPage()}Some link 1#{/a}</li>
-				<li>#{a @GuestPage.guestPage()}Some link 2#{/a}</li>
-				<li>#{a @GuestPage.guestPage()}Some link 3#{/a}</li>
-				<li>#{a @GuestPage.guestPage()}Some link 4#{/a}</li>
+				<li>#{a @GuestPage.guestPage()}Stelper#{/a}</li>
+				<li>#{a @GuestPage.about()}About#{/a}</li>
+				<li>#{a @GuestPage.contact()}Contact#{/a}</li>
 			</ul>
 		</div>
 	</div>

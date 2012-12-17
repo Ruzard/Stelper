@@ -29,6 +29,7 @@ public class Conversations extends Controller {
 		try {
 			PrivateMessage privateMessage = MessageService.sendMessage(user, receiverUser, message);
 			if (privateMessage != null) {
+
 				renderJSON(JsonHelper.getPrivateMessageJson(privateMessage));
 			} else {
 				renderJSON(null);

@@ -12,5 +12,10 @@ public class HELPER extends Controller {
 	public static void loadModels() {
 		Fixtures.deleteAllModels();
 		Fixtures.loadModels("data.yml");
+		try {
+			Secure.login();
+		} catch (Throwable throwable) {
+			throwable.printStackTrace();
+		}
 	}
 }

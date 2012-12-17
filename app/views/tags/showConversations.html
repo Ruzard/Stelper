@@ -10,12 +10,16 @@
 		<div id="a${conversation.id}" class="accordion-body collapse">
 			<div class="accordion-inner">
 				#{list items:conversation.messages, as : 'message'}
-					<div class="well well-small">
+					<div class="well well-small" data-receiver="${conversation.getCompanion(_user.username).username}">
 						<span class="pm-author">${message.author.username}</span>
-								<span class="pm-timestamp">#{if message.sent}<${message.sent.format("dd MMM, HH:mm")}
-									>#{/if}</span>
+						<span class="pm-timestamp">
+							#{if message.sent}<${message.sent.format("dd MMM, HH:mm")}>#{/if}
+						</span>
 						:
-					${message.message} <br>
+						<span class="pm-message">
+							${message.message}
+						</span>
+						<br>
 					</div>
 				#{/list}
 				<input type="submit" value="Reply" role="button" data-toggle="modal" href="#c${conversation.id}">
@@ -34,11 +38,32 @@
 			var id = $(this).parent().parent().attr('id')
 			var message = $(this).parent().parent().find('textarea').val();
 			var receiver = $(this).parent().parent().find('h3').find('strong').text();
-			$.post('/conversations/sendmessage', {receiver:receiver, message:message}, function () {
+			$.post('/conversations/sendmessage', {receiver:receiver, message:message}, function (response) {
 				$('#' + id).modal('hide');
-				window.location = '/profile#user-messages';
+
+				var message = $('<div>', {
+					class:"well well-small hidden",
+					"data-receiver":response.receiver
+				});
+				$('<span>', {
+					class:"pm-author",
+					text:response.author+' '
+				}).appendTo(message);
+				$('<span>', {
+					class:"pm-timestamp",
+					text:'<' + response.sentAt + '>'
+				}).appendTo(message);
+				$('<span>', {
+					class:"pm-message",
+					text:response.message
+				}).appendTo(message);
+				var dataSelector = '[data-receiver="' + response.receiver + '"]';
+				$(dataSelector).last().after(message);
+				message.slideDown(600);
+
 			});
 			return false;
 		});
-	});
+	})
+	;
 </script>

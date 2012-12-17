@@ -5,6 +5,13 @@ import play.mvc.Controller;
 public class GuestPage extends Controller {
 
 	public static void guestPage() {
-		render("guestPage.html");
+		render();
 	}
+	public static void about() {
+		render();
+	}
+	public static void contact() {
+		render();
+	}
+
 }

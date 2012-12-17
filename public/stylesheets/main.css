@@ -1,3 +1,7 @@
+* {
+    font-family: 'Libre Baskerville', serif;
+}
+
 body {
     background: #d9d9d9;
     padding: 0;
@@ -36,7 +40,8 @@ body {
     height: 100%;
     width: 150px;
     float: right;
-    background: #7fffd4;
+    /*background: #7fffd4;*/
+    background: #666666;
 }
 
 .logoSpan {
@@ -200,4 +205,17 @@ a.rating:hover {
 
 .conversation.accordion-heading {
     background: white;
+}
+
+.contact {
+    min-width: 48%;
+    margin: 0.3%;
+    min-height: 100px;
+    position: relative;
+    float: left;
+}
+
+.contacts {
+    position: relative;
+    overflow: auto;
 }

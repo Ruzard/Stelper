@@ -8,7 +8,8 @@ GET     /register                               Users.registration
 GET     /stelper                                Main.main
 GET		/profile								Users.profile
 GET		/posts/create							Posts.createPost
-
+GET     /contact                                GuestPage.contact
+GET     /about									GuestPage.about
 
 # Ignore favicon requests
 GET     /favicon.ico                            404

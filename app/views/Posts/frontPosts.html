@@ -29,7 +29,7 @@
 				$.post('/conversations/sendmessage', {receiver:receiver, message:message}, function (response) {
 					$('#' + id).modal('hide');
 
-					if (response == 'true') {
+					if (!!response) {
 						alert('Message Sent!');
 					} else {
 						alert('Error!');

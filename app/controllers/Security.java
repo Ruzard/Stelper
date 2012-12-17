@@ -12,7 +12,7 @@ public class Security extends Secure.Security {
 	}
 
 	static void onDisconnected() {
-
+		GuestPage.guestPage();
 	}
 
 }
