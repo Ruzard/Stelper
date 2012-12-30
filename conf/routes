@@ -3,12 +3,12 @@
 # ~~~~
 
 # Home page
-GET     /                                       GuestPage.index
-GET     /register                               Registration.index
-GET     /stelper                                Stelper.stelper
-GET     /newpost/search                         AddPost.addSearchPost
-GET		/addcomment								AddComment.addComment
-GET		/profile								Profile.index
+GET     /                                       GuestPage.guestPage
+GET     /register                               Users.registration
+GET     /stelper                                Main.main
+GET		/profile								Users.profile
+GET		/posts/create							Posts.createPost
+
 
 # Ignore favicon requests
 GET     /favicon.ico                            404
@@ -16,8 +16,8 @@ GET     /favicon.ico                            404
 # Map static resources from the /app/public folder to the /public path
 GET     /public/                                staticDir:public
 
-# Catch all
-*       /{controller}/{action}                  {controller}.{action}
 
 # Import Secure routes
 *       /                                       module:secure
+# Catch all
+*       /{controller}/{action}                  {controller}.{action}

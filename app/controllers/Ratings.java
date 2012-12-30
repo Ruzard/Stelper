@@ -12,7 +12,7 @@ import services.PostService;
  * Created with IntelliJ IDEA. User: ivanma Date: 16.11.12 Time: 13:02 To change
  * this template use File | Settings | File Templates.
  */
-public class Rating extends Controller {
+public class Ratings extends Controller {
 	@Before
 	static void setConnectedUser() {
 
@@ -30,7 +30,7 @@ public class Rating extends Controller {
 		ResponseStatus responseStatus = PostService.changeRating(universalPost, user, ratingType);
 		switch (responseStatus) {
 		case OK:
-			Stelper.detailedPost(postId);
+			Posts.detailedPost(postId);
 			break;
 		default:
 			error(responseStatus.getMessage());

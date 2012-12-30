@@ -196,3 +196,20 @@ Comment(frozenComment):
   body: "test body"
   parentTree: frozenCommentTree
 
+PrivateConversation(bobAndTed):
+  firstUser: bob
+  secondUser: ted
+  messages: [bobToTed,tedToBob]
+
+PrivateMessage(bobToTed):
+    message: "Hi , Ted!"
+    conversation: bobAndTed
+    author : bob
+    sent :  new Date();
+
+PrivateMessage(tedToBob):
+    message: "Hi , Bob!"
+    conversation: bobAndTed
+    author : ted
+    sent : new Date();
+

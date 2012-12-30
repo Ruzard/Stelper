@@ -13,8 +13,12 @@ import models.enums.ResponseStatus;
 import models.exceptions.AccessViolationException;
 import models.exceptions.DataValidationException;
 import models.exceptions.PostException;
+import play.db.jpa.JPABase;
 import utils.AccessValidation;
 import utils.PostUtils;
+
+import java.util.Iterator;
+import java.util.List;
 
 import static models.enums.ResponseStatus.OK;
 import static models.enums.ResponseStatus.RATING_ALREADY_CHANGED;
@@ -107,5 +111,17 @@ public class PostService {
 		if (!AccessValidation.commentCreationAllowed(author)) {
 			throw new AccessViolationException(message + "\nAuthor status:" + author.status);
 		}
+	}
+
+	public static List<UniversalPost> getVisiblePosts() {
+		List<UniversalPost> all = UniversalPost.findAll();
+		Iterator<UniversalPost> iterator = all.iterator();
+		while (iterator.hasNext()) {
+			UniversalPost next = iterator.next();
+			if (next.status == PostStatus.BANNED || next.status == PostStatus.FROZEN){
+				iterator.remove();
+			}
+		}
+		return all;
 	}
 }

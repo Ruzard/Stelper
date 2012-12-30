@@ -1,0 +1,19 @@
+<div id="commentTrees">
+	<h4>Comments</h4>
+#{list _arg.commentTrees, as:'commentTree'}
+	<div class="commentTree well well-small">
+		#{list commentTree.comments ,as:'comment'}
+			<div class="comment well well-small">
+				<span class="label">${comment.postedAt.format("dd.MM HH:mm")}</span>
+				<span class="author label label-info">by ${comment.author.username}</span>
+
+				<p>
+					<span>${comment.body}</span>
+				</p>
+			</div>
+		#{/list}
+		<span data-id="${commentTree.id}" class="reply label label-info">Reply</span>
+	</div>
+	<div id="${commentTree.id}" class="hidden commentReply">#{addSubComment commentTree.id/}</div>
+#{/list}
+</div>

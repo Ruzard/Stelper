@@ -12,7 +12,7 @@ public class PrivateMessage extends Model {
 	public Date sent;
 
 	@ManyToOne
-	public PrivateDialog dialog;
+	public PrivateConversation conversation;
 
 	@ManyToOne
 	public User author;

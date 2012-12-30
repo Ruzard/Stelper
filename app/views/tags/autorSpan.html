@@ -1,0 +1,23 @@
+#{if session.get("currentUser") == _arg.author.username}
+<span class="label label-info">
+	by ${_arg.author.username}
+</span>
+
+#{/if}
+
+#{else }
+<a class="dropdown-toggle label label-info" id="drop1"
+   role="button" data-toggle="dropdown" href="">
+	by ${_arg.author.username}
+</a>
+<ul class="dropdown-menu" id="menu1"
+	role="menu" aria-labelledby="drop1">
+	<li>
+		<a class="send-private"
+		   href="#${_arg.id}" role="button" class="btn" data-toggle="modal"
+		   data-receiver="${_arg.author.username}" data-post-id="${_arg.id}">Send
+			private message</a>
+	</li>
+</ul>
+#{/else}
+

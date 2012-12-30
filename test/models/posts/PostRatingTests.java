@@ -72,13 +72,13 @@ public class PostRatingTests extends UnitTest {
 		assertEquals("Status should be OK", OK, statusFirst);
 
 		UniversalPost firstChange = UniversalPost.findById(universalPost.id);
-		assertTrue("Rating should have changed", isRatingEqual(1, 0, 0, firstChange.rating));
+		assertTrue("Ratings should have changed", isRatingEqual(1, 0, 0, firstChange.rating));
 
 		ResponseStatus statusSecond = PostService.changeRating(firstChange, changeInitiator, POSITIVE);
 		assertEquals("Status should be RATING_ALREADY_CHANGED", RATING_ALREADY_CHANGED, statusSecond);
 
 		UniversalPost secondChange = UniversalPost.findById(firstChange.id);
-		assertTrue("Rating should not have changed", isRatingEqual(1, 0, 0, secondChange.rating));
+		assertTrue("Ratings should not have changed", isRatingEqual(1, 0, 0, secondChange.rating));
 	}
 
 	@Test
@@ -86,9 +86,9 @@ public class PostRatingTests extends UnitTest {
 		universalPost = UniversalPost.find("byType", PostType.OFFER).first();
 		User user = User.find("byStatus", UserStatus.ACTIVE).first();
 
-		assertTrue("Rating should be null initially", isRatingEqual(0, 0, 0, universalPost.rating));
+		assertTrue("Ratings should be null initially", isRatingEqual(0, 0, 0, universalPost.rating));
 		PostService.changeRating(universalPost, user, RatingType.POSITIVE);
-		assertTrue("Rating should be changed", isRatingEqual(1, 0, 0, universalPost.rating));
+		assertTrue("Ratings should be changed", isRatingEqual(1, 0, 0, universalPost.rating));
 	}
 
 	private boolean isRatingEqual(int positive, int neutral, int negative, Rating rating) {

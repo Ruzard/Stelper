@@ -1,0 +1,29 @@
+<div>
+	<div class="post well well-large">
+		<span>Posted At : <span class="label"> ${_arg.postedAt.format("dd.MM HH:mm")}</span></span>
+
+		<span class="hidden">${_arg.type}</span>
+
+	*{#{list items:post.posts , as:'langPost'}}*             <!--TODO implement langPost support-->
+	#{set langPost:_arg.posts.get(0)/}
+
+		<span class="author">
+		#{autorSpan _arg/}
+		</span>
+
+		<br>
+		<br>
+		<span class="title">
+		#{a @Posts.detailedPost(_arg.id)}${langPost.title}#{/a}
+		</span>
+		<br>
+		<br>
+
+		<p><span>${langPost.body}</span></p>
+		<br>
+	</div>
+	<div class="modal hide fad " id="${_arg.id}">
+	#{addPrivateMessage post:_arg/}
+	</div>
+*{#{/list}}*
+</div>

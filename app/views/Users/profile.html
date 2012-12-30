@@ -1,0 +1,42 @@
+#{extends 'main.html'/}
+<div>
+	<h1><strong>${user.username}</strong>, welcome to your profile!</h1>
+
+	<div class="left-navigation">
+		<ul class="nav nav-pills nav-stacked">
+			<li><a class="a-nav" href="#user-info">User Info</a></li>
+			<li><a class="a-nav" href="#user-posts">User Posts</a></li>
+			<li><a class="a-nav" href="#user-messages">Conversations</a></li>
+		</ul>
+	</div>
+
+	<div id="user-info" class="hidden profile">
+	#{showUserInfo user/}
+	</div>
+
+
+	<div id="user-posts" class="hidden profile"> |
+	#{showUserRating user/}
+	#{if !createdPosts.empty}
+		<h3>Created posts by you:</h3>
+		#{list items:createdPosts, as:'post'}
+			#{showPost post/}
+		#{/list}
+	#{/if}
+	</div>
+
+	<div id="user-messages" class="hidden profile">
+		<h2>Conversations</h2>
+	#{showConversations conversations:conversations, user:user/}
+	</div>
+	<script type="text/javascript">
+		$(document).ready(function () {
+			$('a.a-nav').on('click', function () {
+				$('div.profile:visible').hide();
+				var divId = $(this).attr('href');
+				$('div' + divId).show();
+				return false;
+			});
+		});
+	</script>
+</div>

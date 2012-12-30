@@ -2,20 +2,20 @@ package services;
 
 import java.util.List;
 
-import models.PrivateDialog;
+import models.PrivateConversation;
 import models.PrivateMessage;
 import models.User;
 import models.enums.ExceptionType;
 import models.exceptions.PrivateMessageException;
 
 public class MessageService {
-	public static boolean sendMessage(User author, User receiver, String message) throws PrivateMessageException {
+	public static PrivateMessage sendMessage(User author, User receiver, String message) throws PrivateMessageException {
 		if (message == null || message.equals("")) {
-			return false;
+			return null;
 		}
 
 		if (receiver == null || author == null) {
-			return false;
+			return null;
 		}
 
 		if (User.findById(receiver.id) == null) {
@@ -23,19 +23,22 @@ public class MessageService {
 			throw new PrivateMessageException(ExceptionType.USER_NOT_FOUND, errorMessage);
 		}
 
-		PrivateDialog dialog = PrivateDialog.find("byFirstUserAndSecondUser", author, receiver).first();
-		if (dialog == null) {
-			dialog = PrivateDialog.find("byFirstUserAndSecondUser", receiver, author).first();
-			if (dialog == null) {
-				dialog = new PrivateDialog(author, receiver);
+		PrivateConversation conversation = PrivateConversation.find("byFirstUserAndSecondUser", author, receiver)
+				.first();
+		if (conversation == null) {
+			conversation = PrivateConversation.find("byFirstUserAndSecondUser", receiver, author).first();
+			if (conversation == null) {
+				conversation = new PrivateConversation(author, receiver);
 			}
 		}
-		return dialog.addMessage(new PrivateMessage(author, message));
+		PrivateMessage privateMessage = new PrivateMessage(author, message);
+		return conversation.addMessage(privateMessage) ? privateMessage : null;
+
 	}
 
-	public static List<PrivateDialog> getDialogList(User user) {
-		List<PrivateDialog> firstPart = PrivateDialog.find("byFirstUser", user).fetch();
-		List<PrivateDialog> secondPart = PrivateDialog.find("bySecondUser", user).fetch();
+	public static List<PrivateConversation> getPrivateConversations(User user) {
+		List<PrivateConversation> firstPart = PrivateConversation.find("byFirstUser", user).fetch();
+		List<PrivateConversation> secondPart = PrivateConversation.find("bySecondUser", user).fetch();
 		firstPart.addAll(secondPart);
 		return firstPart;
 	}
