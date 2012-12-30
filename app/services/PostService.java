@@ -28,7 +28,7 @@ public class PostService {
 		if (post.posts.isEmpty()) {
 			throw new DataValidationException(post + " missing translated posts");
 		}
-		PostUtils.checkTags(post);
+		PostUtils.checkTagsValid(post);
 
 
 		post.author = author;
