@@ -78,12 +78,6 @@ public class PrivateMessageSimpleTest extends UnitTest {
 		assertTrue("Messages should have been created", (initialMessageCount + 3) == PrivateMessage.count());
 	}
 
-	@Test(expected = PrivateMessageException.class)
-	public void userHasBeenDeletedInProcess() throws PrivateMessageException {
-		second.delete();
-		MessageService.sendMessage(first, second, "Test message");
-	}
-
 	public void fetchDialogs() throws PrivateMessageException {
 		User third = User.find("byUsername", "John").first();
 		long initialDialogCount = PrivateConversation.count();
