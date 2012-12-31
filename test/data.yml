@@ -28,6 +28,13 @@ User(john):
   country: EE
   status: ACTIVE
 
+User(jonny):
+  email: john@gmail.com
+  password: secret
+  username: Jonny
+  country: EE
+  status: ACTIVE
+
 User(commentPoster):
   email: bob@gmail.com
   password: secret
