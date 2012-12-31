@@ -57,10 +57,10 @@ public class PrivateMessageSimpleTest extends UnitTest {
 
 	@Test
 	public void nullPointerMessageServiceTest() throws PrivateMessageException {
-		assertFalse(MessageService.sendMessage(null, second, "Test message"));
-		assertFalse(MessageService.sendMessage(first, null, "Test message"));
-		assertFalse(MessageService.sendMessage(first, second, null));
-		assertFalse(MessageService.sendMessage(null, null, null));
+		assertNull(MessageService.sendMessage(null, second, "Test message"));
+		assertNull(MessageService.sendMessage(first, null, "Test message"));
+		assertNull(MessageService.sendMessage(first, second, null));
+		assertNull(MessageService.sendMessage(null, null, null));
 	}
 
 	@Test
