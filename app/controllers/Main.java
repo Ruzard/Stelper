@@ -16,7 +16,6 @@ public class Main extends Controller {
 
 	@Before
 	static void setConnectedUser() {
-
 		if (Security.isConnected()) {
 			user = User.find("byUsername", Security.connected()).first();
 			if (user != null)
@@ -26,6 +25,7 @@ public class Main extends Controller {
 	}
 
 	public static void main() {
-		Posts.frontPosts();
+//		Posts.frontPosts();
+		Search.search();
 	}
 }

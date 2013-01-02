@@ -32,7 +32,7 @@ public class SearchService {
 		if (params.containsKey(DATE)) {
 			SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
 			try {
-				Date date = dateFormat.parse(params.get("date"));
+				Date date = dateFormat.parse(params.get(DATE));
 				allPosts = UniversalPost.find("postedAt >= ? AND type = ? AND status = ?", date, postType,
 						PostStatus.OPEN).fetch();
 			} catch (ParseException e) {
@@ -48,8 +48,8 @@ public class SearchService {
 
 		//checking languages
 		if (params.containsKey(LANGUAGES)) {
-			String[] languages = params.get(LANGUAGES).split(",");
-			PostFilterUtils.filterLanguages(allPosts, languages);
+			String[] languages = params.get(LANGUAGES).split(", ");
+			allPosts = PostFilterUtils.filterLanguages(allPosts, languages);
 		}
 
 

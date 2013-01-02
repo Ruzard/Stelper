@@ -219,3 +219,12 @@ a.rating:hover {
     position: relative;
     overflow: auto;
 }
+
+#innerSearchPanel {
+    text-align: center;
+    padding: 2%;
+}
+
+.dp {
+    float: none !important;
+}

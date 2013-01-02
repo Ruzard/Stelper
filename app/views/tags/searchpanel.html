@@ -1,1 +1,29 @@
-<div id="searchPanel">SEARCH PANEL GOES HERE</div>
+<div id="searchPanel" class="well well-large">
+	<div id="innerSearchPanel">
+	#{form @Search.searchSubmit()}
+		<span>
+		Post Type :#{select 'postType', items :models.enums.PostType }#{/select}
+		</span>
+		<span>
+		Languages : <select multiple="true" name="languages" value="EN">
+			<option value="EN" selected="selected">English</option>
+			<option value="ET">Estonian</option>
+			<option value="RU">Russian</option>
+		</select>
+		</span>
+		<span>
+		Oldest Date:<input name="date" type="text" class="dp">
+		</span>
+		<input type="submit" value="Search">
+	#{/form}
+	</div>
+
+	<script type="text/javascript">
+		$(document).ready(function () {
+			$('.dp').datepicker({
+				dateFormat:"dd-mm-yy"
+			});
+			$('.dp').datepicker("setDate", new Date(2011, 01, 01));
+		});
+	</script>
+</div>

@@ -69,7 +69,7 @@ public class SearchServiceTests extends UnitTest {
 	@Test
 	public void dateFilterWorks() {
 		Calendar calendar = Calendar.getInstance();
-		calendar.set(2012, Calendar.OCTOBER, 9); //09.10.2012
+		calendar.set(2011, Calendar.OCTOBER, 9); //09.10.2011 , all test-case-posts have their year set to 2012
 
 		Date date = calendar.getTime();
 		requestMap.put(DATE, new SimpleDateFormat(DATE_FORMAT).format(date));

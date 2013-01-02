@@ -5,7 +5,7 @@
 # Home page
 GET     /                                       GuestPage.guestPage
 GET     /register                               Users.registration
-GET     /stelper                                Main.main
+GET     /stelper                                Search.search
 GET		/profile								Users.profile
 GET		/posts/create							Posts.createPost
 GET     /contact                                GuestPage.contact

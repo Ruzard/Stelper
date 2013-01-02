@@ -1,0 +1,38 @@
+#{if _arg != null}
+	#{if _arg.size()==0}
+	Sorry , nothing found =(
+	#{/if}
+	#{list items:_arg, as:'post'}
+		#{showPost post/}
+	#{/list}
+<script type="text/javascript">
+	$(document).ready(function () {
+		$('.dropdown-toggle').dropdown();
+//			$('a.send-private').on('click', function () {
+//				var id = $(this).data('post-id');
+//				$('div#' + id).();
+//				return false;
+//			});
+		$('a.btn-close').on('click', function () {
+			var id = $(this).parent().parent().attr('id');
+			$('div.modal#' + id).modal('hide');
+		});
+		$('input.send').on('click', function () {
+			var id = $(this).parent().parent().attr('id')
+			var message = $(this).parent().parent().find('textarea').val();
+			var receiver = $(this).parent().parent().find('h3').find('strong').text();
+			$.post('/conversations/sendmessage', {receiver:receiver, message:message}, function (response) {
+				$('#' + id).modal('hide');
+
+				if (!!response) {
+					alert('Message Sent!');
+				} else {
+					alert('Error!');
+				}
+			});
+			return false;
+		});
+	})
+	;
+</script>
+#{/if}

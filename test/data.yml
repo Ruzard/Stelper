@@ -70,7 +70,7 @@ User(banned):
 UniversalPost(searchPost):
    type: SEARCH
    author: bob
-   postedAt: 2011-10-09
+   postedAt: 2012-10-09
    posts: [searchLangPostFirst, searchLangPostSecond]
    rating: zeroRating
 
@@ -117,7 +117,7 @@ LangPost(offerLangPost):
 UniversalPost(uploadPost):
    type: UPLOAD
    author: bob
-   postedAt: 2011-12-09
+   postedAt: 2012-12-12
    posts: [uploadLangPost]
    rating: zeroRating
 

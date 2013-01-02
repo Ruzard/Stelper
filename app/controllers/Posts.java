@@ -64,11 +64,7 @@ public class Posts extends Controller {
 		unPost.type = postType;
 		User author = renderArgs.get("user", User.class);
 		try {
-			if (PostService.createPost(unPost, author)) {
-				System.out.println("success");
-			} else {
-				System.out.println("fail");
-			}
+			PostService.createPost(unPost, author);
 		} catch (AccessViolationException e) {
 
 		} catch (DataValidationException e) {
