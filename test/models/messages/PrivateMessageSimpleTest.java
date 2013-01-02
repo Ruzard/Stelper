@@ -22,7 +22,7 @@ public class PrivateMessageSimpleTest extends UnitTest {
 		Fixtures.deleteDatabase();
 		Fixtures.loadModels("data.yml");
 
-		first = User.find("byUsername", "Bob").first();
+		first = User.find("byUsername", "John").first();
 		second = User.find("byUsername", "Ted").first();
 	}
 
@@ -68,7 +68,7 @@ public class PrivateMessageSimpleTest extends UnitTest {
 		long initialMessageCount = PrivateMessage.count();
 		long initialDialogCount = PrivateConversation.count();
 
-		User third = User.find("byUsername", "John").first();
+		User third = User.find("byUsername", "Jonny").first();
 
 		MessageService.sendMessage(first, second, "Test message");
 		MessageService.sendMessage(first, third, "Test message");
@@ -76,12 +76,6 @@ public class PrivateMessageSimpleTest extends UnitTest {
 
 		assertTrue("Dialogs should have been created", (initialDialogCount + 3) == PrivateConversation.count());
 		assertTrue("Messages should have been created", (initialMessageCount + 3) == PrivateMessage.count());
-	}
-
-	@Test(expected = PrivateMessageException.class)
-	public void userHasBeenDeletedInProcess() throws PrivateMessageException {
-		second.delete();
-		MessageService.sendMessage(first, second, "Test message");
 	}
 
 	public void fetchDialogs() throws PrivateMessageException {

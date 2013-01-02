@@ -28,6 +28,13 @@ User(john):
   country: EE
   status: ACTIVE
 
+User(jonny):
+  email: john@gmail.com
+  password: secret
+  username: Jonny
+  country: EE
+  status: ACTIVE
+
 User(commentPoster):
   email: bob@gmail.com
   password: secret
@@ -63,6 +70,7 @@ User(banned):
 UniversalPost(searchPost):
    type: SEARCH
    author: bob
+   postedAt: 2011-10-09
    posts: [searchLangPostFirst, searchLangPostSecond]
    rating: zeroRating
 
@@ -94,13 +102,14 @@ Comment(firstComment):
 UniversalPost(offerPost):
    type: OFFER
    author: bob
+   postedAt: 2012-12-09
    posts: [offerLangPost]
    rating: zeroRating
 
 LangPost(offerLangPost):
   title:  "OfferPost"
   body:   "HelloBody"
-  language: ET
+  language: RU
   parentPost: offerPost
 
 
@@ -108,13 +117,14 @@ LangPost(offerLangPost):
 UniversalPost(uploadPost):
    type: UPLOAD
    author: bob
+   postedAt: 2011-12-09
    posts: [uploadLangPost]
    rating: zeroRating
 
 LangPost(uploadLangPost):
   title:  "UploadPost"
   body:   "HelloBody"
-  language: ET
+  language: EN
   parentPost: uploadPost
 
 CommentTree(uploadCommentTree):

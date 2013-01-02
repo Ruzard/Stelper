@@ -6,7 +6,7 @@ import models.exceptions.DataValidationException;
 
 public class PostUtils {
 
-	public static void checkTags(UniversalPost post) throws DataValidationException {
+	public static void checkTagsValid(UniversalPost post) throws DataValidationException {
 		boolean tagsValid = true;
 		for (LangPost langPost : post.posts) {
 			if (langPost.tags == null || langPost.tags.size() == 0) {
