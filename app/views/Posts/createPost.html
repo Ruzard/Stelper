@@ -1,10 +1,18 @@
 #{extends 'main.html'/}
 <h1>Add new ${postType} post</h1>
-#{form @Posts.createPostSubmit()}
+#{form @Posts.createPostSubmit() ,  enctype:'multipart/form-data'}
 <fieldset>
 	<legend>Add new post</legend>
 	<div class="field">
 		<input type="hidden" name="postType" value="${postType}">
+		#{if postType.toString()=="UPLOAD"}
+			<div class="field">
+				<label for="attachment">Attachment : </label>
+				<input id="attachment" type="file" name="langPost.attachment">
+				<input id="fileName" type="hidden" name="langPost.attachmentFileName">
+			</div>
+		#{/if}
+
 
 		<div class="field">
 			<label for="language">Language : </label> <br>
@@ -33,5 +41,12 @@
 </fieldset>
 <input type="submit" class="submit" value="Submit !"/>
 #{/form}
-
+<script type="text/javascript">
+	$(document).ready(function () {
+		$('input#attachment').change(function () {
+			var fileName = $(this).val().split('\\')[2];
+			$('input#fileName').val(fileName);
+		});
+	});
+</script>
 

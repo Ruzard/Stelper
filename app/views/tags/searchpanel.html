@@ -1,22 +1,36 @@
 <div id="searchPanel" class="well well-large">
-	<div id="innerSearchPanel">
-	#{form @Search.searchSubmit()}
+#{form @Search.searchSubmit()}
+	<table>
+		<tr>
+			<td>
 		<span>
 		Post Type :#{select 'postType', items :models.enums.PostType }#{/select}
-		</span>
+		</span></td>
+			<td>
 		<span>
 		Languages : <select multiple="true" name="languages" value="EN">
 			<option value="EN" selected="selected">English</option>
 			<option value="ET">Estonian</option>
 			<option value="RU">Russian</option>
 		</select>
-		</span>
+		</span></td>
+		</tr>
+		<tr>
+			<td>
 		<span>
-		Oldest Date:<input name="date" type="text" class="dp">
+		Oldest Date : <input name="date" type="text" class="dp">
 		</span>
-		<input type="submit" value="Search">
-	#{/form}
-	</div>
+			</td>
+			<td>
+		<span>
+		Keywords : <input style="float:none;" name="keywords" type="text">
+		</span>
+			</td>
+		</tr>
+	</table>
+	<input type="submit" value="Search">
+
+#{/form}
 
 	<script type="text/javascript">
 		$(document).ready(function () {

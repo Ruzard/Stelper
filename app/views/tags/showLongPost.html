@@ -1,0 +1,29 @@
+<div>
+<div class="post well well-large">
+	<span>Posted At : <span class="label"> ${_arg.postedAt.format("dd.MM HH:mm")}</span></span>
+	<span class="hidden">${_arg.type}</span>
+
+#{postRating _arg/}
+
+
+
+#{list items:_arg.posts , as:'langPost'}             <!--TODO implement langPost support-->
+	#{set langPost:_arg.posts.get(0)/}
+	<span class="author">
+		#{autorSpan _arg/}
+	</span>
+	<span id="attachment">
+		   <a href="@{Posts.downloadAttachment(langPost.id)}">Download Attachment</a>
+	</span>
+
+*{<span class="author label label-info">by ${_arg.author.username}</span>}*
+
+	<h3>${langPost.title}</h3>
+
+	<p><span>${langPost.body}</span></p>
+	<br>
+</div>
+	#{showComments langPost/}
+#{/list}
+</div>
+<div> #{addCommentTree /}</div>

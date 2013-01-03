@@ -8,6 +8,7 @@ import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+
 import models.enums.Language;
 import play.data.validation.Required;
 import play.db.jpa.Blob;
@@ -26,8 +27,9 @@ public class LangPost extends Model {
 	@ElementCollection
 	public List<String> tags;
 
-	@ElementCollection
-	public List<Blob> fileList;
+	public Blob attachment;
+
+	public String attachmentFileName;
 
 	@Required
 	public Language language;

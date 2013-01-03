@@ -1,0 +1,223 @@
+# you describe your data using the YAML notation here
+# and then load them using Fixtures.load("data.yml")
+
+
+Rating(zeroRating):
+  positive: 0
+  negative: 0
+  neutral: 0
+
+User(bob):
+  email: bob@gmail.com
+  password: secret
+  username: Bob
+  country: EE
+  status: ACTIVE
+
+User(ted):
+  email: ted@gmail.com
+  password: secret
+  username: Ted
+  country: EE
+  status: ACTIVE
+
+User(john):
+  email: john@gmail.com
+  password: secret
+  username: John
+  country: EE
+  status: ACTIVE
+
+User(jonny):
+  email: john@gmail.com
+  password: secret
+  username: Jonny
+  country: EE
+  status: ACTIVE
+
+User(commentPoster):
+  email: bob@gmail.com
+  password: secret
+  username: Commenter
+  country: EE
+  status: ACTIVE
+
+User(absoluteGuest):
+  email: guest@gmail.com
+  password: secret
+  username: AbsoluteGuest
+  country: EE
+  status: ACTIVE
+
+User(frozen):
+  email: bob@gmail.com
+  password: secret
+  username: frozen
+  country: EE
+  status: FROZEN
+  rating: zeroRating
+
+User(banned):
+  email: banned@gmail.com
+  password: secret
+  username: BannedBob
+  country: EE
+  status: BANNED
+  rating: zeroRating
+
+
+#SEARCH POST
+UniversalPost(searchPost):
+   type: SEARCH
+   author: bob
+   postedAt: 2012-10-09
+   posts: [searchLangPostFirst, searchLangPostSecond]
+   rating: zeroRating
+
+LangPost(searchLangPostFirst):
+  title:  "HelloTitle"
+  body:   "HelloBody"
+  language: ET
+  parentPost: searchPost
+
+LangPost(searchLangPostSecond):
+  title:  "PostWithComments"
+  body:   "HelloSecondBody"
+  language: RU
+  parentPost: searchPost
+  comments: [firstCommentTree, secondCommentTree, thirdCommentTree]
+
+CommentTree(firstCommentTree):
+  parentPost: searchLangPostSecond
+  comments: [firstComment]
+
+Comment(firstComment):
+  author: commentPoster
+  body: "test body"
+  parentTree: firstCommentTree
+
+
+
+#OFFER POST
+UniversalPost(offerPost):
+   type: OFFER
+   author: bob
+   postedAt: 2012-12-09
+   posts: [offerLangPost]
+   rating: zeroRating
+
+LangPost(offerLangPost):
+  title:  "OfferPost"
+  body:   "HelloBody"
+  language: RU
+  parentPost: offerPost
+
+
+#UPLOAD
+UniversalPost(uploadPost):
+   type: UPLOAD
+   author: bob
+   postedAt: 2012-12-12
+   posts: [uploadLangPost]
+   rating: zeroRating
+
+LangPost(uploadLangPost):
+  title:  "UploadPost"
+  body:   "HelloBody"
+  language: EN
+  parentPost: uploadPost
+
+CommentTree(uploadCommentTree):
+  parentPost: uploadLangPost
+  comments: [uploadComment]
+
+Comment(uploadComment):
+  author: commentPoster
+  body: "test body"
+  parentTree: uploadCommentTree
+
+#CLOSED POST
+UniversalPost(closedPost):
+   type: SEARCH
+   author: bob
+   status: CLOSED
+   posts: [closedLangPost]
+   rating: zeroRating
+
+LangPost(closedLangPost):
+  title:  "ClosedPost"
+  body:   "HelloBody"
+  language: ET
+  parentPost: closedPost
+
+CommentTree(closedCommentTree):
+  parentPost: uploadLangPost
+  comments: [closedComment]
+
+Comment(closedComment):
+  author: commentPoster
+  body: "test body"
+  parentTree: closedCommentTree
+
+#BANNED POST
+UniversalPost(bannedPost):
+   type: SEARCH
+   status: BANNED
+   author: bob
+   posts: [bannedLangPost]
+   rating: zeroRating
+
+LangPost(bannedLangPost):
+  title:  "bannedPost"
+  body:   "HelloBody"
+  language: ET
+  parentPost: bannedPost
+
+CommentTree(bannedCommentTree):
+  parentPost: uploadLangPost
+  comments: [bannedComment]
+
+Comment(bannedComment):
+  author: commentPoster
+  body: "test body"
+  parentTree: bannedCommentTree
+
+
+#FROZEN POST
+UniversalPost(frozenPost):
+   type: SEARCH
+   author: bob
+   status: FROZEN
+   posts: [frozenLangPost]
+   rating: zeroRating
+
+LangPost(frozenLangPost):
+  title:  "frozenPost"
+  body:   "HelloBody"
+  language: ET
+  parentPost: frozenPost
+
+CommentTree(frozenCommentTree):
+  parentPost: uploadLangPost
+  comments: [frozenComment]
+
+Comment(frozenComment):
+  author: commentPoster
+  body: "test body"
+  parentTree: frozenCommentTree
+
+PrivateConversation(bobAndTed):
+  firstUser: bob
+  secondUser: ted
+  messages: [bobToTed,tedToBob]
+
+PrivateMessage(bobToTed):
+    message: "Hi , Ted!"
+    conversation: bobAndTed
+    author : bob
+
+PrivateMessage(tedToBob):
+    message: "Hi , Bob!"
+    conversation: bobAndTed
+    author : ted
+

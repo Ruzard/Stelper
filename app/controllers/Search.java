@@ -32,7 +32,7 @@ public class Search extends Controller {
 		render("search.html");
 	}
 
-	public static void searchSubmit(String date, PostType postType, String languages) {
+	public static void searchSubmit(String date, PostType postType, String languages, String keywords) {
 		Map<String, String> params = new HashMap();
 		if (postType != null)
 			params.put(TYPE, postType.name());

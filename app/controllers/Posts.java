@@ -1,5 +1,6 @@
 package controllers;
 
+import java.io.File;
 import java.util.List;
 
 import models.LangPost;
@@ -54,6 +55,7 @@ public class Posts extends Controller {
 		render(postType);
 	}
 
+
 	public static void createPostSubmit(@Valid LangPost langPost, PostType postType) {
 		if (validation.hasErrors()) {
 			createPost(postType);
@@ -72,5 +74,15 @@ public class Posts extends Controller {
 		}
 
 		Main.main();
+	}
+
+	public static void downloadAttachment(Long postId) {
+		LangPost langPost = LangPost.findById(postId);
+		notFoundIfNull(langPost);
+		if (langPost.parentPost.type != PostType.UPLOAD) {
+			error("This kind of posts have no attachment");
+		}
+		response.setContentTypeIfNotSet(langPost.attachment.type());
+		renderBinary(langPost.attachment.get(), langPost.attachmentFileName);
 	}
 }
