@@ -1,3 +1,19 @@
+Stelper (student's helper)
+Portal where you can find help, study materials and offer help for a reward.
+
+
+It was done for university purposes as a sample project with a perspective of future development. Nowadays there are no similar websites that offer freelance-like services. However due to work and other activities we have no time to develop it further.
+
+You are free to use it as you want. I would appreciate if you made changes to code just to share experience.
+Front-end part needs heavy refactoring and testing. I think you anyway will change it.
+
+However back-end part is well tested (99% test coverage for Service-layer). The only service that was not refactored - SearchService. It was done the night before handing project in and I had no time to refactor it.
+
+
+
+Below you see our first mock-up.
+
+
 ! - not in the university phase
 
 List of functions needed to be implemented
