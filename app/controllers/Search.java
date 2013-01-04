@@ -1,15 +1,15 @@
 package controllers;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import models.UniversalPost;
 import models.User;
 import models.enums.PostType;
 import play.mvc.Before;
 import play.mvc.Controller;
 import services.SearchService;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
 
 public class Search extends Controller {
 	public static final String LANGUAGES = "languages";
@@ -40,7 +40,7 @@ public class Search extends Controller {
 			params.put(DATE, date);
 		if (languages != null)
 			params.put(LANGUAGES, languages);
-		Set<UniversalPost> posts = SearchService.findPost(params);
+		List<UniversalPost> posts = SearchService.findPosts(params);
 		renderArgs.put("posts", posts);
 		render("search.html");
 	}

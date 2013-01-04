@@ -14,7 +14,7 @@ public class ApplicationTest extends FunctionalTest {
 
 	@Test
 	public void testRegistrationPageWorks() {
-		Response response = GET("/registrationSubmit");
+		Response response = GET("/register");
 		assertIsOk(response);
 		assertContentMatch("First name", response);
 	}

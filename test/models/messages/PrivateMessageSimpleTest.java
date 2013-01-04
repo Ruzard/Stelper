@@ -56,11 +56,31 @@ public class PrivateMessageSimpleTest extends UnitTest {
 	}
 
 	@Test
+	public void getConversationListTest() throws PrivateMessageException {
+		int beforeSendingConversationsCount = MessageService.getPrivateConversations(first).size();
+
+		PrivateConversation conversation = new PrivateConversation(first, second);
+		conversation.addMessage(new PrivateMessage(first, "test"));
+
+		int afterSendingConversationsCount = MessageService.getPrivateConversations(first).size();
+		assertTrue(beforeSendingConversationsCount != afterSendingConversationsCount);
+	}
+
+	@Test
 	public void nullPointerMessageServiceTest() throws PrivateMessageException {
 		assertNull(MessageService.sendMessage(null, second, "Test message"));
 		assertNull(MessageService.sendMessage(first, null, "Test message"));
 		assertNull(MessageService.sendMessage(first, second, null));
 		assertNull(MessageService.sendMessage(null, null, null));
+		assertNull(MessageService.sendMessage(first, second, ""));
+	}
+
+	@Test(expected = PrivateMessageException.class)
+	public void unknownReceiverTest() throws PrivateMessageException {
+		User unknownUser = new User();
+		unknownUser.username = "Inkognito";
+		unknownUser.id = Long.valueOf(12341234);
+		assertNull(MessageService.sendMessage(first, unknownUser, "Test message"));
 	}
 
 	@Test

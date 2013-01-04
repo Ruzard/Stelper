@@ -52,6 +52,7 @@ public class PostRatingTests extends UnitTest {
 		assertTrue(isRatingEqual(0, 0, 0, universalPost.rating));
 
 		assertEquals(ResponseStatus.DATA_VALIDATION_EXCEPTION, PostService.changeRating(null, null, null));
+		assertEquals(ResponseStatus.DATA_VALIDATION_EXCEPTION, PostService.changeRating(null, changeInitiator, POSITIVE));
 	}
 
 	@Test

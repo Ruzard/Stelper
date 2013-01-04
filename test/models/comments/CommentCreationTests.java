@@ -39,8 +39,15 @@ public class CommentCreationTests extends UnitTest {
 		long initialPostComments = langPost.commentTrees.size();
 		langPost.addCommentTree(comment);
 		assertNotSame("comment hasn't been added to the database", initialCommentCount,
-		              Comment.count());
+				Comment.count());
 		assertFalse("comment hasn't been added to the post", initialPostComments == langPost.commentTrees.size());
+	}
+
+	@Test
+	public void nullPointerTest() throws AccessViolationException, PostException {
+		assertFalse("comment shouldn't be created", PostService.addPostComment(activeUser, langPost, null));
+		assertFalse("comment shouldn't be created", PostService.addPostComment(activeUser, null, comment));
+		assertFalse("comment shouldn't be created", PostService.addPostComment(null, langPost, comment));
 	}
 
 	@Test

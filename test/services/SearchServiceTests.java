@@ -4,8 +4,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import com.sun.javaws.exceptions.InvalidArgumentException;
 import models.LangPost;
@@ -34,32 +34,47 @@ public class SearchServiceTests extends UnitTest {
 
 	@Test(expected = IllegalArgumentException.class)
 	public void nullPointerTest() throws InvalidArgumentException {
-		Set<UniversalPost> post = SearchService.findPost(null);
+		SearchService.findPosts(null);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void postTypeIsNeeded() throws InvalidArgumentException {
-		SearchService.findPost(requestMap);
+		SearchService.findPosts(requestMap);
+	}
+
+	@Test
+	public void noPostsFoundTest() {
+		Fixtures.deleteDatabase();
+		requestMap.put(SearchService.TYPE, PostType.OFFER.toString());
+		List<UniversalPost> postSet = SearchService.findPosts(requestMap);
+		assertTrue(postSet.size() == 0);
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void invalidDateTest() {
+		requestMap.put(SearchService.TYPE, PostType.OFFER.toString());
+		requestMap.put(SearchService.DATE, "12342314");
+		SearchService.findPosts(requestMap);
 	}
 
 	@Test
 	public void typeFilterWorks() {
 		requestMap.put(SearchService.TYPE, PostType.OFFER.toString());
-		Set<UniversalPost> posts = SearchService.findPost(requestMap);
+		List<UniversalPost> posts = SearchService.findPosts(requestMap);
 		for (UniversalPost universalPost : posts) {
 			assertEquals(universalPost.status, OPEN);
 			assertEquals(universalPost.type, PostType.OFFER);
 		}
 
 		requestMap.put(SearchService.TYPE, PostType.SEARCH.toString());
-		posts = SearchService.findPost(requestMap);
+		posts = SearchService.findPosts(requestMap);
 		for (UniversalPost universalPost : posts) {
 			assertEquals(universalPost.status, OPEN);
 			assertEquals(universalPost.type, PostType.SEARCH);
 		}
 
 		requestMap.put(SearchService.TYPE, PostType.UPLOAD.toString());
-		posts = SearchService.findPost(requestMap);
+		posts = SearchService.findPosts(requestMap);
 		for (UniversalPost universalPost : posts) {
 			assertEquals(universalPost.status, OPEN);
 			assertEquals(universalPost.type, PostType.UPLOAD);
@@ -75,19 +90,19 @@ public class SearchServiceTests extends UnitTest {
 		requestMap.put(DATE, new SimpleDateFormat(DATE_FORMAT).format(date));
 
 		requestMap.put(SearchService.TYPE, PostType.OFFER.toString());
-		Set<UniversalPost> posts = SearchService.findPost(requestMap);
+		List<UniversalPost> posts = SearchService.findPosts(requestMap);
 		for (UniversalPost universalPost : posts) {
 			assertTrue("Filter not working", date.before(universalPost.postedAt));
 		}
 
 		requestMap.put(SearchService.TYPE, PostType.SEARCH.toString());
-		posts = SearchService.findPost(requestMap);
+		posts = SearchService.findPosts(requestMap);
 		for (UniversalPost universalPost : posts) {
 			assertTrue("Filter not working", date.before(universalPost.postedAt));
 		}
 
 		requestMap.put(SearchService.TYPE, PostType.UPLOAD.toString());
-		posts = SearchService.findPost(requestMap);
+		posts = SearchService.findPosts(requestMap);
 		for (UniversalPost universalPost : posts) {
 			assertTrue("Filter not working", date.before(universalPost.postedAt));
 		}
@@ -98,7 +113,7 @@ public class SearchServiceTests extends UnitTest {
 		requestMap.put(SearchService.LANGUAGES, Language.ET.toString() + "," + Language.RU);
 
 		requestMap.put(SearchService.TYPE, PostType.OFFER.toString());
-		Set<UniversalPost> posts = SearchService.findPost(requestMap);
+		List<UniversalPost> posts = SearchService.findPosts(requestMap);
 		for (UniversalPost universalPost : posts) {
 			for (LangPost post : universalPost.posts) {
 				assertTrue(post.language == Language.ET || post.language == Language.RU);
@@ -106,7 +121,7 @@ public class SearchServiceTests extends UnitTest {
 		}
 
 		requestMap.put(SearchService.TYPE, PostType.SEARCH.toString());
-		posts = SearchService.findPost(requestMap);
+		posts = SearchService.findPosts(requestMap);
 		for (UniversalPost universalPost : posts) {
 			for (LangPost post : universalPost.posts) {
 				assertTrue(post.language == Language.ET || post.language == Language.RU);
@@ -114,11 +129,27 @@ public class SearchServiceTests extends UnitTest {
 		}
 
 		requestMap.put(SearchService.TYPE, PostType.UPLOAD.toString());
-		posts = SearchService.findPost(requestMap);
+		posts = SearchService.findPosts(requestMap);
 		for (UniversalPost universalPost : posts) {
 			for (LangPost post : universalPost.posts) {
 				assertTrue(post.language == Language.ET || post.language == Language.RU);
 			}
 		}
+	}
+
+	@Test
+	public void queryTestFound() {
+		requestMap.put(SearchService.TYPE, PostType.OFFER.toString());
+		requestMap.put(SearchService.SEARCH_QUERY, "OfferPost");
+		List<UniversalPost> posts = SearchService.findPosts(requestMap);
+		assertTrue(posts.size() > 0);
+	}
+
+	@Test
+	public void queryTestNothingFound() {
+		requestMap.put(SearchService.TYPE, PostType.OFFER.toString());
+		requestMap.put(SearchService.SEARCH_QUERY, "nothing_should_be_found");
+		List<UniversalPost> posts = SearchService.findPosts(requestMap);
+		assertTrue(posts.size() == 0);
 	}
 }
