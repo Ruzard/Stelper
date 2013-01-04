@@ -27,6 +27,12 @@ public class PrivateMessageSimpleTest extends UnitTest {
 	}
 
 	@Test
+	public void testClassExists() {
+		assertNotNull(new MessageService());
+		assertNotNull(new PrivateMessage(first, "test"));
+	}
+
+	@Test
 	public void sendMessage() throws PrivateMessageException {
 		long initialMessageCount = PrivateMessage.count();
 		long initialDialogCount = PrivateConversation.count();

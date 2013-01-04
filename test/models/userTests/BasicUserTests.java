@@ -2,8 +2,10 @@ package models.userTests;
 
 import models.User;
 import models.enums.Country;
-import org.junit.*;
-import play.test.*;
+import org.junit.Before;
+import org.junit.Test;
+import play.test.Fixtures;
+import play.test.UnitTest;
 import services.UserService;
 
 public class BasicUserTests extends UnitTest {
@@ -22,6 +24,11 @@ public class BasicUserTests extends UnitTest {
 		user.password = "test";
 		assertFalse(user.validateAndSave());
 		assertEquals("User should not have been created", initialNumberOfUsers, User.count());
+	}
+
+	@Test
+	public void testClassExists() {
+		assertNotNull(new UserService());
 	}
 
 	@Test

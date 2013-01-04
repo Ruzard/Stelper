@@ -32,12 +32,17 @@ public class SearchServiceTests extends UnitTest {
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void nullPointerTest() throws IllegalArgumentException {
+	public void nullPointerTest() {
 		SearchService.findPosts(null);
 	}
 
+	@Test
+	public void testClassExists() {
+		assertNotNull(new SearchService());
+	}
+
 	@Test(expected = IllegalArgumentException.class)
-	public void postTypeIsNeeded() throws IllegalArgumentException {
+	public void postTypeIsNeeded() {
 		SearchService.findPosts(requestMap);
 	}
 
