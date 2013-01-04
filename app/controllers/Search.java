@@ -15,7 +15,8 @@ public class Search extends Controller {
 	public static final String LANGUAGES = "languages";
 	public static final String DATE = "date";
 	public static final String TYPE = "type";
-	public static final String DATE_FORMAT = "dd-MM-yyyy";
+	public static final String SEARCH_QUERY = "searchQuery";
+	public static final String EMPTY_STRING = "";
 	private static User user;
 
 	@Before
@@ -40,6 +41,8 @@ public class Search extends Controller {
 			params.put(DATE, date);
 		if (languages != null)
 			params.put(LANGUAGES, languages);
+		if (keywords != null && !keywords.equals(EMPTY_STRING))
+			params.put(SEARCH_QUERY, keywords);
 		List<UniversalPost> posts = SearchService.findPosts(params);
 		renderArgs.put("posts", posts);
 		render("search.html");

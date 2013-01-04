@@ -1,5 +1,12 @@
 package services;
 
+import models.UniversalPost;
+import models.enums.PostStatus;
+import models.enums.PostType;
+import models.util.Pair;
+import utils.PostFilterUtils;
+import utils.SearchUtils;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -9,13 +16,6 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-
-import com.sun.tools.javac.util.Pair;
-import models.UniversalPost;
-import models.enums.PostStatus;
-import models.enums.PostType;
-import utils.PostFilterUtils;
-import utils.SearchUtils;
 
 public class SearchService {
 
@@ -79,8 +79,6 @@ public class SearchService {
 		for (Pair<Integer, UniversalPost> postsWithRating : postsWithRatings) {
 			posts.add(postsWithRating.snd);
 		}
-
-
 		return posts;
 	}
 

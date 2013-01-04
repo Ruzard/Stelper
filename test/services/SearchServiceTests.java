@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.sun.javaws.exceptions.InvalidArgumentException;
 import models.LangPost;
 import models.UniversalPost;
 import models.enums.Language;
@@ -33,12 +32,12 @@ public class SearchServiceTests extends UnitTest {
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void nullPointerTest() throws InvalidArgumentException {
+	public void nullPointerTest() throws IllegalArgumentException {
 		SearchService.findPosts(null);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void postTypeIsNeeded() throws InvalidArgumentException {
+	public void postTypeIsNeeded() throws IllegalArgumentException {
 		SearchService.findPosts(requestMap);
 	}
 

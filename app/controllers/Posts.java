@@ -72,8 +72,7 @@ public class Posts extends Controller {
 		} catch (DataValidationException e) {
 
 		}
-
-		Main.main();
+		detailedPost(unPost.id);
 	}
 
 	public static void downloadAttachment(Long postId) {

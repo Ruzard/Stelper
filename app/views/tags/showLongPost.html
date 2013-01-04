@@ -12,9 +12,11 @@
 	<span class="author">
 		#{autorSpan _arg/}
 	</span>
-	<span id="attachment">
+	#{if _arg.type.toString().equals("UPLOAD")}
+		<span id="attachment">
 		   <a href="@{Posts.downloadAttachment(langPost.id)}">Download Attachment</a>
-	</span>
+		</span>
+	#{/if}
 
 *{<span class="author label label-info">by ${_arg.author.username}</span>}*
 

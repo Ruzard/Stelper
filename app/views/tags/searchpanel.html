@@ -5,12 +5,18 @@
 			<td>
 		<span>
 		Post Type :#{select 'postType', items :models.enums.PostType }#{/select}
-		</span></td>
+		*{Post Type : <select name="postType" id="postType">}*
+		*{<option value="OFFER">Offer</option>}*
+		*{<option value="SEARCH">Search</option>}*
+		*{<option value="UPLOAD">Upload</option>}*
+			</select>
+		</span>
+			</td>
 			<td>
 		<span>
 		Languages : <select multiple="true" name="languages" value="EN">
-			<option value="EN" selected="selected">English</option>
 			<option value="ET">Estonian</option>
+			<option value="EN">English</option>
 			<option value="RU">Russian</option>
 		</select>
 		</span></td>
@@ -23,12 +29,12 @@
 			</td>
 			<td>
 		<span>
-		Keywords : <input style="float:none;" name="keywords" type="text">
+		Keywords : <input style="float:none;" placeholder="Type here.." name="keywords" type="text">
 		</span>
 			</td>
 		</tr>
 	</table>
-	<input type="submit" value="Search">
+	<input type="submit" class="btn btn-primary btn-large" value="Search">
 
 #{/form}
 

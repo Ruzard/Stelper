@@ -17,11 +17,11 @@
 #{get 'moreScripts' /}
 </head>
 <body>
-<div id="body">
+<div id="wrap">
 	<div id="header">
 
 		<div id="login">
-			<ul class="nav nav-pills nav-stacked">
+			<ul class="nav nav-pills nav-stacked" style="text-align: center">
 				<li>
 				#{a @Secure.login()}Login#{/a}
 				</li>
@@ -38,8 +38,11 @@
 			</ul>
 		</div>
 	</div>
-	<div id="mainContent">#{doLayout /}</div>
+	<div id="inner-wrap">
+		<div id="mainContent">#{doLayout /}</div>
+	</div>
 	<div id="footer">FOOTER GOES HERE</div>
+</div>
 </div>
 </body>
 </html>
